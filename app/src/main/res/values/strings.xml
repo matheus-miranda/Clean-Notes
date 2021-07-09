@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Clean Notes</string>
     <string name="add_new_note">Add new note</string>
+    <string name="create_note">Create Note</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="ok">OK</string>
 </resources>
