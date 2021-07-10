@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.mmdevelopment.cleannotes.databinding.NoteItemBinding
 import br.com.mmdevelopment.cleannotes.model.Note
 
-class NoteListAdapter() : ListAdapter<Note, NoteListAdapter.NoteListViewHolder>(DIFF_CONFIG) {
+class NoteListAdapter(private val clickHandler: (Note) -> Unit) :
+    ListAdapter<Note, NoteListAdapter.NoteListViewHolder>(DIFF_CONFIG) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
         val inflate = NoteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -17,6 +18,9 @@ class NoteListAdapter() : ListAdapter<Note, NoteListAdapter.NoteListViewHolder>(
 
     override fun onBindViewHolder(holder: NoteListViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            clickHandler(getItem(position))
+        }
     }
 
     companion object {

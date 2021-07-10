@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.transition.Explode
 import android.view.Window
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,19 +17,30 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var rvNote: RecyclerView
-    private val adapter by lazy { NoteListAdapter() }
+    private val adapter by lazy { NoteListAdapter { clickedListItem() } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         animationTransitions() // Call animations before inflating the layout
+
+        // Inflate the layout with ViewBinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize the RecyclerView and choose the layout
         rvNote = binding.rvNotes
+        switchLayout()
+
+        insertListeners() // Handle click listeners
+    }
+
+    /**
+     * Switches the LayoutManager
+     */
+    private fun switchLayout() {
+        // TODO create a menu option to switch recycler view layout
         rvNote.layoutManager = LinearLayoutManager(this)
         //rvNote.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
-        insertListeners()
     }
 
     /**
@@ -43,6 +55,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Fab clickListener
+     */
     private fun insertListeners() {
         binding.fabNew.setOnClickListener {
             startActivityForResult(
@@ -59,6 +74,13 @@ class MainActivity : AppCompatActivity() {
             rvNote.adapter = adapter
             adapter.submitList(NoteDataSource.getList())
         }
+    }
+
+    /**
+     * Called whenever a note is clicked by the user
+     */
+    private fun clickedListItem() {
+        Toast.makeText(this, "Clicked item", Toast.LENGTH_SHORT).show()
     }
 
     companion object {
