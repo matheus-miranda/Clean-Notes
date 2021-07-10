@@ -7,4 +7,6 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="ok">OK</string>
+    <string name="switch_layout">Switch layout</string>
+    <string name="night_theme">Night theme</string>
 </resources>
