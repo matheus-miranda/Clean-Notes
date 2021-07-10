@@ -1,5 +1,6 @@
 package br.com.mmdevelopment.cleannotes.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.transition.Slide
 import android.view.Window
@@ -76,6 +77,8 @@ class AddNoteActivity : AppCompatActivity() {
                 time = binding.tilTime.text
             )
             NoteDataSource.insertNote(note)
+            setResult(Activity.RESULT_OK)
+            finish()
         }
     }
 }
