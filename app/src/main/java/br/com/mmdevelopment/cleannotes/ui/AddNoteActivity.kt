@@ -1,6 +1,8 @@
 package br.com.mmdevelopment.cleannotes.ui
 
 import android.os.Bundle
+import android.transition.Slide
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import br.com.mmdevelopment.cleannotes.databinding.ActivityAddNoteBinding
 import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
@@ -18,10 +20,25 @@ class AddNoteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        animationTransitions()
+
         binding = ActivityAddNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         insertListeners()
+    }
+
+    /**
+     * Creates transition animations
+     */
+    private fun animationTransitions() {
+        with(window) {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+            // set the transition to be shown when the user enters this activity
+            enterTransition = Slide()
+            enterTransition.duration = 600
+        }
     }
 
     /**
