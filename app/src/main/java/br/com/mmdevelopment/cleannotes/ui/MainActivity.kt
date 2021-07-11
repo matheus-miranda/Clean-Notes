@@ -4,19 +4,27 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.transition.Explode
+import android.view.Menu
+import android.view.MenuItem
 import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.adapter.NoteListAdapter
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
 import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
+import com.google.android.material.appbar.MaterialToolbar
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var rvNote: RecyclerView
+    private lateinit var toolbar: MaterialToolbar
+    private var isGridLayoutManager = true
     private val adapter by lazy { NoteListAdapter { clickedListItem() } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,32 +35,72 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inflate toolbar with options menu
+        toolbar = binding.tbMain
+        toolbar.title = ""
+        setSupportActionBar(toolbar)
+
         // Initialize the RecyclerView and choose the layout
         rvNote = binding.rvNotes
-        switchLayout()
+        chooseLayout()
 
         insertListeners() // Handle click listeners
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+
+        val layoutButton = menu?.findItem(R.id.switch_layout)
+        setIcon(layoutButton)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.switch_layout -> {
+                // Sets isGridLayoutManager to the opposite value
+                isGridLayoutManager = !isGridLayoutManager
+                // Sets layout and icon
+                chooseLayout()
+                setIcon(item)
+
+                return true
+            }
+            //  Otherwise, do nothing and use the core event handling
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RESULT_CODE_OK) {
+            rvNote.adapter = adapter
+            adapter.submitList(NoteDataSource.getList())
+        }
     }
 
     /**
      * Switches the LayoutManager
      */
-    private fun switchLayout() {
-        // TODO create a menu option to switch recycler view layout
-        rvNote.layoutManager = LinearLayoutManager(this)
-        //rvNote.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+    private fun chooseLayout() {
+        if (isGridLayoutManager) {
+            rvNote.layoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        } else {
+            rvNote.layoutManager = LinearLayoutManager(this)
+        }
     }
 
     /**
-     * Creates transition animations
+     * Set menu icon for layout and theme
      */
-    private fun animationTransitions() {
-        with(window) {
-            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-            // set the transition to be shown when the user enters this activity
-            enterTransition = Explode()
-            enterTransition.duration = 600
-        }
+    private fun setIcon(menuItem: MenuItem?) {
+        if (menuItem == null) return
+
+        menuItem.icon = if (isGridLayoutManager)
+            ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
+        else ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
     }
 
     /**
@@ -68,19 +116,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RESULT_CODE_OK) {
-            rvNote.adapter = adapter
-            adapter.submitList(NoteDataSource.getList())
-        }
-    }
-
     /**
      * Called whenever a note is clicked by the user
      */
     private fun clickedListItem() {
         Toast.makeText(this, "Clicked item", Toast.LENGTH_SHORT).show()
+    }
+
+    /**
+     * Creates transition animations
+     */
+    private fun animationTransitions() {
+        with(window) {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+            // set the transition to be shown when the user enters this activity
+            enterTransition = Explode()
+            enterTransition.duration = 600
+        }
     }
 
     companion object {
