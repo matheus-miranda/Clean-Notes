@@ -17,6 +17,7 @@ import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.adapter.NoteListAdapter
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
 import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
+import br.com.mmdevelopment.cleannotes.model.Note
 import com.google.android.material.appbar.MaterialToolbar
 
 class MainActivity : AppCompatActivity() {
@@ -24,8 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var rvNote: RecyclerView
     private lateinit var toolbar: MaterialToolbar
-    private var isGridLayoutManager = true
-    private val adapter by lazy { NoteListAdapter { clickedListItem() } }
+    private var isLinearLayoutManager = true
+    private val adapter by lazy { NoteListAdapter { clickedListItem(it) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.switch_layout -> {
                 // Sets isGridLayoutManager to the opposite value
-                isGridLayoutManager = !isGridLayoutManager
+                isLinearLayoutManager = !isLinearLayoutManager
                 // Sets layout and icon
                 chooseLayout()
                 setIcon(item)
@@ -84,11 +85,11 @@ class MainActivity : AppCompatActivity() {
      * Switches the LayoutManager
      */
     private fun chooseLayout() {
-        if (isGridLayoutManager) {
+        if (isLinearLayoutManager) {
+                rvNote.layoutManager = LinearLayoutManager(this)
+        } else {
             rvNote.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        } else {
-            rvNote.layoutManager = LinearLayoutManager(this)
         }
     }
 
@@ -98,9 +99,9 @@ class MainActivity : AppCompatActivity() {
     private fun setIcon(menuItem: MenuItem?) {
         if (menuItem == null) return
 
-        menuItem.icon = if (isGridLayoutManager)
-            ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
-        else ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
+        menuItem.icon = if (isLinearLayoutManager)
+            ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
+        else ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
     }
 
     /**
@@ -119,8 +120,9 @@ class MainActivity : AppCompatActivity() {
     /**
      * Called whenever a note is clicked by the user
      */
-    private fun clickedListItem() {
-        Toast.makeText(this, "Clicked item", Toast.LENGTH_SHORT).show()
+    private fun clickedListItem(note: Note) {
+        val msg = "${note.id} ${note.title} ${note.description} ${note.date} ${note.time}"
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     /**

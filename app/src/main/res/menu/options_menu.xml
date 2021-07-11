@@ -6,10 +6,4 @@
         android:icon="@drawable/ic_linear_layout"
         android:title="@string/switch_layout"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/switch_theme"
-        android:icon="@drawable/ic_night_theme"
-        android:title="@string/night_theme"
-        app:showAsAction="ifRoom" />
 </menu>
