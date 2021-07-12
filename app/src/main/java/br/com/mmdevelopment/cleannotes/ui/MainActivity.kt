@@ -11,6 +11,7 @@ import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,14 +21,20 @@ import br.com.mmdevelopment.cleannotes.adapter.NoteListAdapter
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
 import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
 import br.com.mmdevelopment.cleannotes.model.Note
+import br.com.mmdevelopment.cleannotes.repository.DataStoreRepository
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var rvNote: RecyclerView
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var dataStore: DataStoreRepository
     private var isLinearLayoutManager = true
     private val adapter by lazy { NoteListAdapter { clickedListItem(it) } }
 
@@ -38,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        dataStore = DataStoreRepository(this) // Initialize the DataStore
+
         setToolbar() // Inflate toolbar with options menu
 
         // Initialize the RecyclerView
@@ -47,6 +56,20 @@ class MainActivity : AppCompatActivity() {
         swipeToDelete()
         chooseLayout()
         insertListeners() // Handle click listeners
+    }
+
+    private fun readFromDataStore() {
+        lifecycleScope.launch {
+            dataStore.getLayout().collect {
+                isLinearLayoutManager = it
+            }
+        }
+    }
+
+    private fun saveToDataStore() {
+        CoroutineScope(IO).launch {
+            dataStore.saveToDataStore(isLinearLayoutManager)
+        }.cancel()
     }
 
     override fun onResume() {
@@ -72,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                 // Sets layout and icon
                 chooseLayout()
                 setIcon(item)
+                saveToDataStore()
 
                 return true
             }
