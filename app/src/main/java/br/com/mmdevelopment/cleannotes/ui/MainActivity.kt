@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.transition.Explode
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -95,7 +96,14 @@ class MainActivity : AppCompatActivity() {
      * Update the list adapter
      */
     private fun updateList() {
-        adapter.submitList(NoteDataSource.getList())
+        val list = NoteDataSource.getList()
+        if (list.isEmpty()) {
+            binding.emptyInclude.emptyState.visibility = View.VISIBLE
+        } else {
+            binding.emptyInclude.emptyState.visibility = View.GONE
+            binding.rvNotes.visibility = View.VISIBLE
+        }
+        adapter.submitList(list)
     }
 
     /**
@@ -192,7 +200,7 @@ class MainActivity : AppCompatActivity() {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             // set the transition to be shown when the user enters this activity
             enterTransition = Explode()
-            enterTransition.duration = 600
+            enterTransition.duration = 500
         }
     }
 

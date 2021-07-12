@@ -12,5 +12,6 @@
     <string name="night_theme">Tema noturno</string>
     <string name="unnamed_note">Sem Título</string>
     <string name="deleted">Tarefa deletada</string>
-    <string name="undo">Desafazer</string>
+    <string name="undo">Desfazer</string>
+    <string name="empty_notes">Você não tem tarefas.\\nClique no + para adicionar</string>
 </resources>
