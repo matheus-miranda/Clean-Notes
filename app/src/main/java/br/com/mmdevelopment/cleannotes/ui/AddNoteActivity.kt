@@ -61,18 +61,6 @@ class AddNoteActivity : AppCompatActivity() {
     }
 
     /**
-     * Creates transition animations
-     */
-    private fun animationTransitions() {
-        with(window) {
-            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-            // set the transition to be shown when the user enters this activity
-            enterTransition = Slide()
-            enterTransition.duration = 500
-        }
-    }
-
-    /**
      * onClickListeners for create button, date and time pickers
      */
     private fun insertListeners() {
@@ -122,6 +110,18 @@ class AddNoteActivity : AppCompatActivity() {
         // Check if title is empty and set placeholder string
         if (binding.tilTitle.text.trim().isEmpty()) {
             binding.tilTitle.text = resources.getString((R.string.unnamed_note))
+        }
+    }
+
+    /**
+     * Creates transition animations
+     */
+    private fun animationTransitions() {
+        with(window) {
+            requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+            // set the transition to be shown when the user enters this activity
+            enterTransition = Slide()
+            //enterTransition.duration = 400
         }
     }
 
