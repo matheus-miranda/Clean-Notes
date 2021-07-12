@@ -34,15 +34,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         animationTransitions() // Call animations before inflating the layout
-
         // Inflate the layout with ViewBinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inflate toolbar with options menu
-        toolbar = binding.tbMain
-        toolbar.title = ""
-        setSupportActionBar(toolbar)
+        setToolbar() // Inflate toolbar with options menu
 
         // Initialize the RecyclerView
         rvNote = binding.rvNotes
@@ -90,6 +86,12 @@ class MainActivity : AppCompatActivity() {
             //rvNote.adapter = adapter
             updateList()
         }
+    }
+
+    private fun setToolbar() {
+        toolbar = binding.tbMain
+        toolbar.title = ""
+        setSupportActionBar(toolbar)
     }
 
     /**

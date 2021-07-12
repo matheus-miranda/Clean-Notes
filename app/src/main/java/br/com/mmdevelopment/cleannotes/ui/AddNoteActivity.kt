@@ -11,6 +11,7 @@ import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
 import br.com.mmdevelopment.cleannotes.extensions.format
 import br.com.mmdevelopment.cleannotes.extensions.text
 import br.com.mmdevelopment.cleannotes.model.Note
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -19,6 +20,7 @@ import java.util.*
 class AddNoteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddNoteBinding
+    private lateinit var toolbar: MaterialToolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +28,17 @@ class AddNoteActivity : AppCompatActivity() {
         binding = ActivityAddNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Populate fields if editing a note
+        setToolbar()
+        getExtra()
+        insertListeners()
+    }
+
+    /**
+     * Populate fields if editing a note
+     */
+    private fun getExtra() {
         if (intent.hasExtra(TASK_ID)) {
+            toolbar.title = resources.getString(R.string.edit_note)
             val taskId = intent.getIntExtra(TASK_ID, 0)
             NoteDataSource.findById(taskId)?.let {
                 binding.tilTitle.text = it.title
@@ -36,8 +47,17 @@ class AddNoteActivity : AppCompatActivity() {
                 binding.tilTime.text = it.time
             }
         }
+    }
 
-        insertListeners()
+    /**
+     * Set up toolbar and behavior of navigation icon
+     */
+    private fun setToolbar() {
+        toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
     }
 
     /**
