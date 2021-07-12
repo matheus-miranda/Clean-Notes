@@ -168,7 +168,8 @@ class MainActivity : AppCompatActivity() {
                     binding.root,
                     resources.getString(R.string.deleted),
                     Snackbar.LENGTH_LONG
-                ).apply {
+                ).setAnchorView(binding.fabNew)
+                    .apply {
                     setAction(resources.getString(R.string.undo)) {
                         NoteDataSource.insertNote(item)
                         updateList()
