@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.transition.Slide
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.databinding.ActivityAddNoteBinding
 import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
 import br.com.mmdevelopment.cleannotes.extensions.format
@@ -21,11 +22,20 @@ class AddNoteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         animationTransitions()
-
         binding = ActivityAddNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Populate fields if editing a note
+        if (intent.hasExtra(TASK_ID)) {
+            val taskId = intent.getIntExtra(TASK_ID, 0)
+            NoteDataSource.findById(taskId)?.let {
+                binding.tilTitle.text = it.title
+                binding.tilDescription.text = it.description
+                binding.tilDate.text = it.date
+                binding.tilTime.text = it.time
+            }
+        }
 
         insertListeners()
     }
@@ -70,15 +80,32 @@ class AddNoteActivity : AppCompatActivity() {
         }
 
         binding.fabCreate.setOnClickListener {
+            validateFields()
+
             val note = Note(
                 title = binding.tilTitle.text,
                 description = binding.tilDescription.text,
                 date = binding.tilDate.text,
-                time = binding.tilTime.text
+                time = binding.tilTime.text,
+                id = intent.getIntExtra(TASK_ID, 0)
             )
             NoteDataSource.insertNote(note)
             setResult(Activity.RESULT_OK)
             finish()
         }
+    }
+
+    /**
+     * Check for empty text fields before adding to list
+     */
+    private fun validateFields() {
+        // Check if title is empty and set placeholder string
+        if (binding.tilTitle.text.trim().isEmpty()) {
+            binding.tilTitle.text = resources.getString((R.string.unnamed_note))
+        }
+    }
+
+    companion object {
+        const val TASK_ID = "task_id"
     }
 }

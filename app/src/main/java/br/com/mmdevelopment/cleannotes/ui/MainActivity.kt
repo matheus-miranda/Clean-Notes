@@ -1,5 +1,6 @@
 package br.com.mmdevelopment.cleannotes.ui
 
+import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +8,6 @@ import android.transition.Explode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,9 +43,15 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize the RecyclerView and choose the layout
         rvNote = binding.rvNotes
+        rvNote.adapter = adapter
         chooseLayout()
 
         insertListeners() // Handle click listeners
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateList() // Necessary to redraw list for when the user switches to dark mode
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -75,10 +81,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RESULT_CODE_OK) {
-            rvNote.adapter = adapter
-            adapter.submitList(NoteDataSource.getList())
+        if (requestCode == RESULT_CODE_OK && resultCode == Activity.RESULT_OK) {
+            //rvNote.adapter = adapter
+            updateList()
         }
+    }
+
+    /**
+     * Update the list adapter
+     */
+    private fun updateList() {
+        adapter.submitList(NoteDataSource.getList())
     }
 
     /**
@@ -86,7 +99,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun chooseLayout() {
         if (isLinearLayoutManager) {
-                rvNote.layoutManager = LinearLayoutManager(this)
+            rvNote.layoutManager = LinearLayoutManager(this)
         } else {
             rvNote.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -121,8 +134,10 @@ class MainActivity : AppCompatActivity() {
      * Called whenever a note is clicked by the user
      */
     private fun clickedListItem(note: Note) {
-        val msg = "${note.id} ${note.title} ${note.description} ${note.date} ${note.time}"
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, AddNoteActivity::class.java).also {
+            it.putExtra(AddNoteActivity.TASK_ID, note.id)
+        }
+        startActivityForResult(intent, RESULT_CODE_OK)
     }
 
     /**
