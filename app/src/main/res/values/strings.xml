@@ -10,4 +10,6 @@
     <string name="switch_layout">Switch layout</string>
     <string name="night_theme">Night theme</string>
     <string name="unnamed_note">Unnamed Note</string>
+    <string name="deleted">Note deleted</string>
+    <string name="undo">Undo</string>
 </resources>

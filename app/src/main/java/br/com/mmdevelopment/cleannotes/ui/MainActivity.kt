@@ -20,6 +20,7 @@ import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
 import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
 import br.com.mmdevelopment.cleannotes.model.Note
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -162,6 +163,18 @@ class MainActivity : AppCompatActivity() {
                 val item = adapter.currentList[position]
                 NoteDataSource.deleteNote(item)
                 updateList()
+
+                Snackbar.make(
+                    binding.root,
+                    resources.getString(R.string.deleted),
+                    Snackbar.LENGTH_LONG
+                ).apply {
+                    setAction(resources.getString(R.string.undo)) {
+                        NoteDataSource.insertNote(item)
+                        updateList()
+                    }
+                    show()
+                }
             }
 
         }).attachToRecyclerView(rvNote)

@@ -11,4 +11,6 @@
     <string name="switch_layout">Trocar layout</string>
     <string name="night_theme">Tema noturno</string>
     <string name="unnamed_note">Sem Título</string>
+    <string name="deleted">Tarefa deletada</string>
+    <string name="undo">Desafazer</string>
 </resources>
