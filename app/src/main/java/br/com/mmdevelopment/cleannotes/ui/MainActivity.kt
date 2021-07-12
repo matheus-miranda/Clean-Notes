@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         // Initialize the RecyclerView and choose the layout
         rvNote = binding.rvNotes
         rvNote.adapter = adapter
+        swipeToDelete()
         chooseLayout()
 
         insertListeners() // Handle click listeners
@@ -138,6 +140,31 @@ class MainActivity : AppCompatActivity() {
             it.putExtra(AddNoteActivity.TASK_ID, note.id)
         }
         startActivityForResult(intent, RESULT_CODE_OK)
+    }
+
+    /**
+     * Handles the swipe on recycler view to delete item
+     */
+    private fun swipeToDelete() {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val item = adapter.currentList[position]
+                NoteDataSource.deleteNote(item)
+                updateList()
+            }
+
+        }).attachToRecyclerView(rvNote)
     }
 
     /**

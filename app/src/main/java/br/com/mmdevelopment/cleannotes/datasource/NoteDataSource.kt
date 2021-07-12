@@ -17,4 +17,8 @@ object NoteDataSource {
     }
 
     fun findById(taskId: Int) = list.find { it.id == taskId }
+
+    fun deleteNote(note: Note) {
+        list.remove(note)
+    }
 }
