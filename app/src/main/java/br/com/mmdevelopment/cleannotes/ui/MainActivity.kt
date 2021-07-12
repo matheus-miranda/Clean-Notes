@@ -43,18 +43,19 @@ class MainActivity : AppCompatActivity() {
         toolbar.title = ""
         setSupportActionBar(toolbar)
 
-        // Initialize the RecyclerView and choose the layout
+        // Initialize the RecyclerView
         rvNote = binding.rvNotes
         rvNote.adapter = adapter
+
         swipeToDelete()
         chooseLayout()
-
         insertListeners() // Handle click listeners
     }
 
     override fun onResume() {
         super.onResume()
         updateList() // Necessary to redraw list for when the user switches to dark mode
+        chooseLayout()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -163,6 +164,7 @@ class MainActivity : AppCompatActivity() {
                 val item = adapter.currentList[position]
                 NoteDataSource.deleteNote(item)
                 updateList()
+                chooseLayout()
 
                 Snackbar.make(
                     binding.root,
@@ -173,6 +175,7 @@ class MainActivity : AppCompatActivity() {
                     setAction(resources.getString(R.string.undo)) {
                         NoteDataSource.insertNote(item)
                         updateList()
+                        chooseLayout()
                     }
                     show()
                 }
