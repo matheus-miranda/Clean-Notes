@@ -237,7 +237,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Database functions *****************************************************************
+     * Database functions **********************
      */
     fun getAll(): List<NoteEntity> {
         return repository.getAll()
@@ -249,10 +249,6 @@ class MainActivity : AppCompatActivity() {
 
     fun insert(note: NoteEntity) {
         repository.insert(note)
-    }
-
-    fun update(note: NoteEntity) {
-        repository.update(note)
     }
 
     fun delete(note: NoteEntity) {
