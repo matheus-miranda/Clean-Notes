@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.adapter.NoteListAdapter
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
+import br.com.mmdevelopment.cleannotes.datasource.AppDatabase
 import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
+import br.com.mmdevelopment.cleannotes.datasource.NoteRepository
 import br.com.mmdevelopment.cleannotes.model.Note
 import br.com.mmdevelopment.cleannotes.repository.DataStoreRepository
 import com.google.android.material.appbar.MaterialToolbar
@@ -37,6 +39,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataStore: DataStoreRepository
     private var isLinearLayoutManager = true
     private val adapter by lazy { NoteListAdapter { clickedListItem(it) } }
+    private val database by lazy { AppDatabase.getDatabase(this) }
+    private val repository by lazy { NoteRepository(database.noteDao()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -228,6 +232,29 @@ class MainActivity : AppCompatActivity() {
             enterTransition = Explode()
             enterTransition.duration = 500
         }
+    }
+
+    /**
+     * Database functions *****************************************************************
+     */
+    fun getAll(): List<Note> {
+        return repository.getAll()
+    }
+
+    fun findById(noteId: Int) {
+        repository.findById(noteId)
+    }
+
+    fun insert(note: Note) {
+        repository.insert(note)
+    }
+
+    fun update(note: Note) {
+        repository.update(note)
+    }
+
+    fun delete(note: Note) {
+        repository.delete(note)
     }
 
     companion object {

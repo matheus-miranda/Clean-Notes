@@ -12,6 +12,9 @@ interface NoteDao {
     @Query("SELECT * FROM NoteEntity WHERE id = (:noteId)")
     fun findById(noteId: Int)
 
+    @Update
+    fun update(note: Note)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(note: Note)
 

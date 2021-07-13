@@ -8,6 +8,10 @@ class NoteRepository(private val dao: NoteDao) {
         dao.insert(note)
     }
 
+    fun update(note: Note){
+        dao.update(note)
+    }
+
     fun getAll() = dao.getAll()
 
     fun findById(noteId: Int) {
