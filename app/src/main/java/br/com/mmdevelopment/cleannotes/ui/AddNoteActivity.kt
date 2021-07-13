@@ -7,10 +7,9 @@ import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.databinding.ActivityAddNoteBinding
-import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
+import br.com.mmdevelopment.cleannotes.datasource.NoteEntity
 import br.com.mmdevelopment.cleannotes.extensions.format
 import br.com.mmdevelopment.cleannotes.extensions.text
-import br.com.mmdevelopment.cleannotes.model.Note
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -40,11 +39,17 @@ class AddNoteActivity : AppCompatActivity() {
         if (intent.hasExtra(TASK_ID)) {
             toolbar.title = resources.getString(R.string.edit_note)
             val taskId = intent.getIntExtra(TASK_ID, 0)
-            NoteDataSource.findById(taskId)?.let {
+//            NoteDataSource.findById(taskId)?.let {
+//                binding.tilTitle.text = it.title
+//                binding.tilDescription.text = it.description
+//                binding.tilDate.text = it.date
+//                binding.tilTime.text = it.time
+//            }
+            MainActivity().findById(taskId)?.let {
                 binding.tilTitle.text = it.title
-                binding.tilDescription.text = it.description
-                binding.tilDate.text = it.date
-                binding.tilTime.text = it.time
+                binding.tilDescription.text = it.description.toString()
+                binding.tilDate.text = it.date.toString()
+                binding.tilTime.text = it.time.toString()
             }
         }
     }
@@ -90,14 +95,15 @@ class AddNoteActivity : AppCompatActivity() {
         binding.fabCreate.setOnClickListener {
             validateFields()
 
-            val note = Note(
+            val note = NoteEntity(
                 title = binding.tilTitle.text,
                 description = binding.tilDescription.text,
                 date = binding.tilDate.text,
                 time = binding.tilTime.text,
                 id = intent.getIntExtra(TASK_ID, 0)
             )
-            NoteDataSource.insertNote(note)
+            //NoteDataSource.insertNote(note)
+            MainActivity().insert(note)
             setResult(Activity.RESULT_OK)
             finish()
         }

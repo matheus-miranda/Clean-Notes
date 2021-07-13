@@ -20,9 +20,8 @@ import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.adapter.NoteListAdapter
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
 import br.com.mmdevelopment.cleannotes.datasource.AppDatabase
-import br.com.mmdevelopment.cleannotes.datasource.NoteDataSource
+import br.com.mmdevelopment.cleannotes.datasource.NoteEntity
 import br.com.mmdevelopment.cleannotes.datasource.NoteRepository
-import br.com.mmdevelopment.cleannotes.model.Note
 import br.com.mmdevelopment.cleannotes.repository.DataStoreRepository
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
@@ -126,7 +125,8 @@ class MainActivity : AppCompatActivity() {
      * Update the list adapter
      */
     private fun updateList() {
-        val list = NoteDataSource.getList()
+        //val list = NoteDataSource.getList()
+        val list = getAll()
         if (list.isEmpty()) {
             binding.emptyInclude.emptyState.visibility = View.VISIBLE
         } else {
@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Called whenever a note is clicked by the user
      */
-    private fun clickedListItem(note: Note) {
+    private fun clickedListItem(note: NoteEntity) {
         val intent = Intent(this, AddNoteActivity::class.java).also {
             it.putExtra(AddNoteActivity.TASK_ID, note.id)
         }
@@ -200,7 +200,8 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val item = adapter.currentList[position]
-                NoteDataSource.deleteNote(item)
+                //NoteDataSource.deleteNote(item)
+                delete(item)
                 updateList()
                 chooseLayout()
 
@@ -211,7 +212,8 @@ class MainActivity : AppCompatActivity() {
                 ).setAnchorView(binding.fabNew)
                     .apply {
                     setAction(resources.getString(R.string.undo)) {
-                        NoteDataSource.insertNote(item)
+                        //NoteDataSource.insertNote(item)
+                        insert(item)
                         updateList()
                         chooseLayout()
                     }
@@ -237,23 +239,23 @@ class MainActivity : AppCompatActivity() {
     /**
      * Database functions *****************************************************************
      */
-    fun getAll(): List<Note> {
+    fun getAll(): List<NoteEntity> {
         return repository.getAll()
     }
 
-    fun findById(noteId: Int) {
-        repository.findById(noteId)
+    fun findById(noteId: Int): NoteEntity? {
+        return repository.findById(noteId)
     }
 
-    fun insert(note: Note) {
+    fun insert(note: NoteEntity) {
         repository.insert(note)
     }
 
-    fun update(note: Note) {
+    fun update(note: NoteEntity) {
         repository.update(note)
     }
 
-    fun delete(note: Note) {
+    fun delete(note: NoteEntity) {
         repository.delete(note)
     }
 

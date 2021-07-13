@@ -1,24 +1,20 @@
 package br.com.mmdevelopment.cleannotes.datasource
 
-import br.com.mmdevelopment.cleannotes.model.Note
-
 class NoteRepository(private val dao: NoteDao) {
 
-    fun insert(note: Note) {
+    fun insert(note: NoteEntity) {
         dao.insert(note)
     }
 
-    fun update(note: Note){
+    fun update(note: NoteEntity){
         dao.update(note)
     }
 
     fun getAll() = dao.getAll()
 
-    fun findById(noteId: Int) {
-        dao.findById(noteId)
-    }
+    fun findById(noteId: Int) = dao.findById(noteId)
 
-    fun delete(note: Note) {
+    fun delete(note: NoteEntity) {
         dao.delete(note)
     }
 }

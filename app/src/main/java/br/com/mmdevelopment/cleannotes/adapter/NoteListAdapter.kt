@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.mmdevelopment.cleannotes.databinding.NoteItemBinding
-import br.com.mmdevelopment.cleannotes.model.Note
+import br.com.mmdevelopment.cleannotes.datasource.NoteEntity
 
-class NoteListAdapter(private val clickHandler: (Note) -> Unit) :
-    ListAdapter<Note, NoteListAdapter.NoteListViewHolder>(DIFF_CONFIG) {
+class NoteListAdapter(private val clickHandler: (NoteEntity) -> Unit) :
+    ListAdapter<NoteEntity, NoteListAdapter.NoteListViewHolder>(DIFF_CONFIG) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteListViewHolder {
         val inflate = NoteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,12 +24,12 @@ class NoteListAdapter(private val clickHandler: (Note) -> Unit) :
     }
 
     companion object {
-        val DIFF_CONFIG = object : DiffUtil.ItemCallback<Note>() {
-            override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
+        val DIFF_CONFIG = object : DiffUtil.ItemCallback<NoteEntity>() {
+            override fun areItemsTheSame(oldItem: NoteEntity, newItem: NoteEntity): Boolean {
                 return oldItem === newItem
             }
 
-            override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
+            override fun areContentsTheSame(oldItem: NoteEntity, newItem: NoteEntity): Boolean {
                 //return oldItem.id == newItem.id
                 return oldItem == newItem
             }
@@ -40,7 +40,7 @@ class NoteListAdapter(private val clickHandler: (Note) -> Unit) :
     class NoteListViewHolder(private val binding: NoteItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(note: Note) {
+        fun bind(note: NoteEntity) {
             binding.tvTitle.text = note.title
             binding.tvDescription.text = note.description
 

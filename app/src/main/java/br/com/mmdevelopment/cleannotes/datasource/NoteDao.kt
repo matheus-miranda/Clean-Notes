@@ -1,23 +1,21 @@
 package br.com.mmdevelopment.cleannotes.datasource
 
 import androidx.room.*
-import br.com.mmdevelopment.cleannotes.model.Note
 
 @Dao
 interface NoteDao {
-
     @Query("SELECT * FROM NoteEntity")
-    fun getAll(): List<Note>
+    fun getAll(): List<NoteEntity>
 
     @Query("SELECT * FROM NoteEntity WHERE id = (:noteId)")
-    fun findById(noteId: Int)
+    fun findById(noteId: Int): NoteEntity?
 
     @Update
-    fun update(note: Note)
+    fun update(note: NoteEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(note: Note)
+    fun insert(note: NoteEntity)
 
     @Delete
-    fun delete(note: Note)
+    fun delete(note: NoteEntity)
 }
