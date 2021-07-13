@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         rvNote = binding.rvNotes
         rvNote.adapter = adapter
 
+        updateList()
         swipeToDelete()
         chooseLayout()
         insertListeners() // Handle click listeners
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        updateList() // Necessary to redraw list for when the user switches to dark mode
+        //updateList() // Necessary to redraw list for when the user switches to dark mode
         chooseLayout()
     }
 
