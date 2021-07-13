@@ -51,4 +51,10 @@ dependencies {
 
     // Lifecycle Scope
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+
+    //Room DB
+    def room_version = "2.3.0"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 }
