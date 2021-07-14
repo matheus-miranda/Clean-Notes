@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -57,9 +58,27 @@ class MainActivity : AppCompatActivity() {
         rvNote.adapter = adapter
 
         updateList()
+        searchView()
         swipeToDelete()
         chooseLayout()
         insertListeners() // Handle click listeners
+    }
+
+    private fun searchView() {
+        val searchView: SearchView = binding.searchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val list = search("%$newText%")
+                adapter.submitList(list)
+                return true
+            }
+
+        })
     }
 
     private fun readFromDataStore() {
@@ -254,6 +273,10 @@ class MainActivity : AppCompatActivity() {
 
     fun delete(note: NoteEntity) {
         repository.delete(note)
+    }
+
+    fun search(searchQuery: String): List<NoteEntity> {
+        return repository.search(searchQuery)
     }
 
     companion object {

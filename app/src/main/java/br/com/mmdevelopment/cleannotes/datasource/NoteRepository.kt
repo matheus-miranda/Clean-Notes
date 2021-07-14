@@ -6,8 +6,8 @@ class NoteRepository(private val dao: NoteDao) {
         dao.insert(note)
     }
 
-    fun update(note: NoteEntity){
-        dao.update(note)
+    fun search(searchQuery: String): List<NoteEntity> {
+        return dao.searchDatabase(searchQuery)
     }
 
     fun getAll() = dao.getAll()
