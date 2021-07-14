@@ -252,7 +252,7 @@ class MainActivity : AppCompatActivity() {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             // set the transition to be shown when the user enters this activity
             enterTransition = Explode()
-            enterTransition.duration = 500
+            enterTransition.duration = 250
         }
     }
 

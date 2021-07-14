@@ -127,7 +127,7 @@ class AddNoteActivity : AppCompatActivity() {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             // set the transition to be shown when the user enters this activity
             enterTransition = Slide()
-            //enterTransition.duration = 400
+            enterTransition.duration = 200
         }
     }
 
