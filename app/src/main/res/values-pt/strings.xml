@@ -13,7 +13,7 @@
     <string name="unnamed_note">Sem Título</string>
     <string name="deleted">Tarefa deletada</string>
     <string name="undo">Desfazer</string>
-    <string name="empty_notes">Você não tem tarefas.\\nClique no + para adicionar</string>
-    <string name="edit_note">Criar Tarefa</string>
+    <string name="empty_notes">Você não tem tarefas.\nClique no + para adicionar</string>
+    <string name="edit_note">Editar Tarefa</string>
     <string name="search">Pesquisar...</string>
 </resources>
