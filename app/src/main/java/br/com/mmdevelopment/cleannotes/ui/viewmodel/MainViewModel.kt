@@ -1,4 +1,4 @@
-package br.com.mmdevelopment.cleannotes.ui
+package br.com.mmdevelopment.cleannotes.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 
