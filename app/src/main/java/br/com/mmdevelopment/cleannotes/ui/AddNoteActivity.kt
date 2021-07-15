@@ -39,12 +39,6 @@ class AddNoteActivity : AppCompatActivity() {
         if (intent.hasExtra(TASK_ID)) {
             toolbar.title = resources.getString(R.string.edit_note)
             val taskId = intent.getIntExtra(TASK_ID, 0)
-//            NoteDataSource.findById(taskId)?.let {
-//                binding.tilTitle.text = it.title
-//                binding.tilDescription.text = it.description
-//                binding.tilDate.text = it.date
-//                binding.tilTime.text = it.time
-//            }
             MainActivity().findById(taskId)?.let {
                 binding.tilTitle.text = it.title
                 binding.tilDescription.text = it.description.toString()
@@ -102,7 +96,6 @@ class AddNoteActivity : AppCompatActivity() {
                 time = binding.tilTime.text,
                 id = intent.getIntExtra(TASK_ID, 0)
             )
-            //NoteDataSource.insertNote(note)
             MainActivity().insert(note)
             setResult(Activity.RESULT_OK)
             finish()

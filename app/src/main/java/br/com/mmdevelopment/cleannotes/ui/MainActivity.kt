@@ -3,6 +3,7 @@ package br.com.mmdevelopment.cleannotes.ui
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.transition.Explode
 import android.view.Menu
@@ -12,7 +13,7 @@ import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,21 +24,16 @@ import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
 import br.com.mmdevelopment.cleannotes.datasource.AppDatabase
 import br.com.mmdevelopment.cleannotes.datasource.NoteEntity
 import br.com.mmdevelopment.cleannotes.datasource.NoteRepository
-import br.com.mmdevelopment.cleannotes.repository.DataStoreRepository
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var rvNote: RecyclerView
     private lateinit var toolbar: MaterialToolbar
-    private lateinit var dataStore: DataStoreRepository
-    private var isLinearLayoutManager = true
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var viewModel: MainViewModel
     private val adapter by lazy { NoteListAdapter { clickedListItem(it) } }
     private val database by lazy { AppDatabase.getDatabase(this) }
     private val repository by lazy { NoteRepository(database.noteDao()) }
@@ -49,7 +45,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dataStore = DataStoreRepository(this) // Initialize the DataStore
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        sharedPreferences = this.getSharedPreferences("layout", MODE_PRIVATE)
+        getSharedPref()
 
         setToolbar() // Inflate toolbar with options menu
 
@@ -62,6 +60,11 @@ class MainActivity : AppCompatActivity() {
         swipeToDelete()
         chooseLayout()
         insertListeners() // Handle click listeners
+    }
+
+    private fun getSharedPref() {
+        val isLinearLayout = sharedPreferences.getBoolean("layout", true)
+        viewModel.isLinearLayoutManager = isLinearLayout
     }
 
     private fun searchView() {
@@ -81,26 +84,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun readFromDataStore() {
-        lifecycleScope.launch {
-            dataStore.getLayout().collect {
-                isLinearLayoutManager = it
-            }
-        }
-    }
-
-    private fun saveToDataStore() {
-        CoroutineScope(IO).launch {
-            dataStore.saveToDataStore(isLinearLayoutManager)
-        }.cancel()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //updateList() // Necessary to redraw list for when the user switches to dark mode
-        chooseLayout()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
 
@@ -114,11 +97,11 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.switch_layout -> {
                 // Sets isGridLayoutManager to the opposite value
-                isLinearLayoutManager = !isLinearLayoutManager
+                viewModel.isLinearLayoutManager = !viewModel.isLinearLayoutManager
+                sharedPreferences.edit().putBoolean("layout", viewModel.isLinearLayoutManager).apply()
                 // Sets layout and icon
                 chooseLayout()
                 setIcon(item)
-                saveToDataStore()
 
                 return true
             }
@@ -145,7 +128,6 @@ class MainActivity : AppCompatActivity() {
      * Update the list adapter
      */
     private fun updateList() {
-        //val list = NoteDataSource.getList()
         val list = getAll()
         if (list.isEmpty()) {
             binding.emptyInclude.emptyState.visibility = View.VISIBLE
@@ -160,7 +142,7 @@ class MainActivity : AppCompatActivity() {
      * Switches the LayoutManager
      */
     private fun chooseLayout() {
-        if (isLinearLayoutManager) {
+        if (viewModel.isLinearLayoutManager) {
             rvNote.layoutManager = LinearLayoutManager(this)
         } else {
             rvNote.layoutManager =
@@ -173,10 +155,11 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setIcon(menuItem: MenuItem?) {
         if (menuItem == null) return
-
-        menuItem.icon = if (isLinearLayoutManager)
+        menuItem.icon = if (viewModel.isLinearLayoutManager)
             ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
-        else ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
+        else {
+            ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
+        }
     }
 
     /**
@@ -220,7 +203,6 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val item = adapter.currentList[position]
-                //NoteDataSource.deleteNote(item)
                 delete(item)
                 updateList()
                 chooseLayout()
@@ -232,7 +214,6 @@ class MainActivity : AppCompatActivity() {
                 ).setAnchorView(binding.fabNew)
                     .apply {
                     setAction(resources.getString(R.string.undo)) {
-                        //NoteDataSource.insertNote(item)
                         insert(item)
                         updateList()
                         chooseLayout()
@@ -259,7 +240,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Database functions **********************
      */
-    fun getAll(): List<NoteEntity> {
+    private fun getAll(): List<NoteEntity> {
         return repository.getAll()
     }
 
