@@ -99,7 +99,8 @@ class MainActivity : AppCompatActivity() {
             R.id.switch_layout -> {
                 // Sets isGridLayoutManager to the opposite value
                 viewModel.isLinearLayoutManager = !viewModel.isLinearLayoutManager
-                sharedPreferences.edit().putBoolean("layout", viewModel.isLinearLayoutManager).apply()
+                sharedPreferences.edit().putBoolean("layout", viewModel.isLinearLayoutManager)
+                    .apply()
                 // Sets layout and icon
                 chooseLayout()
                 setIcon(item)
@@ -192,7 +193,7 @@ class MainActivity : AppCompatActivity() {
     private fun swipeToDelete() {
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ){
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -214,13 +215,13 @@ class MainActivity : AppCompatActivity() {
                     Snackbar.LENGTH_LONG
                 ).setAnchorView(binding.fabNew)
                     .apply {
-                    setAction(resources.getString(R.string.undo)) {
-                        insert(item)
-                        updateList()
-                        chooseLayout()
+                        setAction(resources.getString(R.string.undo)) {
+                            insert(item)
+                            updateList()
+                            chooseLayout()
+                        }
+                        show()
                     }
-                    show()
-                }
             }
 
         }).attachToRecyclerView(rvNote)
