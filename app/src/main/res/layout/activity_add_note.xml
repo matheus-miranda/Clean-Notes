@@ -42,6 +42,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords" />
@@ -60,6 +61,7 @@
         app:layout_constraintTop_toBottomOf="@id/til_title">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top"
@@ -80,6 +82,7 @@
         app:startIconDrawable="@drawable/ic_calendar">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
@@ -101,6 +104,7 @@
         app:startIconDrawable="@drawable/ic_time">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
