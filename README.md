@@ -35,7 +35,7 @@ O app Clean Notes foi o trabalho de conclusão do Bootcamp Santander Mobile Deve
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/15269393/125836884-7319991e-8264-4417-bafe-a4c4f1ac3f61.gif"></td>
-    <td><img src="https://user-images.githubusercontent.com/15269393/125836888-5087a8ea-f04a-454e-ba31-7aead22f2284.gif"></td>
+    <td><img src="https://user-images.githubusercontent.com/15269393/126582545-993f652c-c155-4ffa-8657-a24333f95cb3.gif"></td>
   </tr>
  </table>
 <br />
@@ -45,7 +45,7 @@ O app Clean Notes foi o trabalho de conclusão do Bootcamp Santander Mobile Deve
     <th>Editar</th>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/15269393/125836874-a3ee9db7-8c6f-4b5d-934f-2149d74e1774.gif"></td>
+    <td><img src="https://user-images.githubusercontent.com/15269393/126582538-f42cfec5-c2f6-4290-8927-4bf3e473f13e.gif"></td>
     <td><img src="https://user-images.githubusercontent.com/15269393/125836880-40ab7dd8-34dd-4653-ac05-2e9a7502755a.gif"></td>
   </tr>
  </table>
