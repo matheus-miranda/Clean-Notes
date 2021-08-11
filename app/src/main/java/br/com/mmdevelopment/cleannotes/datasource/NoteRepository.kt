@@ -1,22 +1,17 @@
 package br.com.mmdevelopment.cleannotes.datasource
 
+import androidx.lifecycle.LiveData
 import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
 
 class NoteRepository(private val dao: NoteDao) {
 
-    fun insert(note: NoteEntity) {
-        dao.insert(note)
-    }
+    val getAll: LiveData<List<NoteEntity>> = dao.getAll()
 
-    fun search(searchQuery: String): List<NoteEntity> {
-        return dao.searchDatabase(searchQuery)
-    }
+    fun search(searchQuery: String): LiveData<List<NoteEntity>> = dao.searchDatabase(searchQuery)
 
-    fun getAll() = dao.getAll()
+    suspend fun findById(noteId: Int) = dao.findById(noteId)
 
-    fun findById(noteId: Int) = dao.findById(noteId)
+    suspend fun insert(note: NoteEntity) = dao.insert(note)
 
-    fun delete(note: NoteEntity) {
-        dao.delete(note)
-    }
+    suspend fun delete(note: NoteEntity) = dao.delete(note)
 }
