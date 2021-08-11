@@ -1,6 +1,7 @@
 package br.com.mmdevelopment.cleannotes.datasource
 
 import androidx.room.*
+import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
 
 @Dao
 interface NoteDao {

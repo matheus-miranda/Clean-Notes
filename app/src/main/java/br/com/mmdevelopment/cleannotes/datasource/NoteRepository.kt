@@ -1,5 +1,7 @@
 package br.com.mmdevelopment.cleannotes.datasource
 
+import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
+
 class NoteRepository(private val dao: NoteDao) {
 
     fun insert(note: NoteEntity) {

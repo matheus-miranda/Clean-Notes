@@ -7,7 +7,7 @@ import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.databinding.ActivityAddNoteBinding
-import br.com.mmdevelopment.cleannotes.datasource.NoteEntity
+import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
 import br.com.mmdevelopment.cleannotes.extensions.format
 import br.com.mmdevelopment.cleannotes.extensions.text
 import com.google.android.material.appbar.MaterialToolbar

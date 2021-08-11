@@ -22,8 +22,8 @@ import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.adapter.NoteListAdapter
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
 import br.com.mmdevelopment.cleannotes.datasource.AppDatabase
-import br.com.mmdevelopment.cleannotes.datasource.NoteEntity
 import br.com.mmdevelopment.cleannotes.datasource.NoteRepository
+import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
 import br.com.mmdevelopment.cleannotes.ui.viewmodel.MainViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
