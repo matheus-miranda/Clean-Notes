@@ -2,6 +2,8 @@
 
 O app Clean Notes foi o trabalho de conclusão do Bootcamp Santander Mobile Developer proporcionado pela Digital Innovation One.
 
+Update (11/08/21) App refatorado para utilizar injeção de dependencias com Koin, LiveData e Coroutines.
+
 <h2>Funcionalidades</h2>
 <li>Criar e editar tarefas ou lembretes com título, descrição, data e hora</li>
 <li>Swipe para esquerda ou direita para deletar</li>
