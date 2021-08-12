@@ -8,11 +8,10 @@
     <string name="time">Time</string>
     <string name="ok">OK</string>
     <string name="switch_layout">Switch layout</string>
-    <string name="night_theme">Night theme</string>
     <string name="unnamed_note">Unnamed Note</string>
     <string name="deleted">Note deleted</string>
     <string name="undo">Undo</string>
     <string name="empty_notes">You don\'t have any notes.\nClick + to add one</string>
     <string name="edit_note">Edit Note</string>
-    <string name="search">Search...</string>
+    <string name="search">Search…</string>
 </resources>

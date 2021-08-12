@@ -10,7 +10,7 @@ import br.com.mmdevelopment.cleannotes.databinding.ActivityAddNoteBinding
 import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
 import br.com.mmdevelopment.cleannotes.extensions.format
 import br.com.mmdevelopment.cleannotes.extensions.text
-import br.com.mmdevelopment.cleannotes.ui.viewmodel.MainViewModel
+import br.com.mmdevelopment.cleannotes.ui.viewmodel.SharedViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -22,7 +22,7 @@ class AddNoteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddNoteBinding
     private lateinit var toolbar: MaterialToolbar
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: SharedViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

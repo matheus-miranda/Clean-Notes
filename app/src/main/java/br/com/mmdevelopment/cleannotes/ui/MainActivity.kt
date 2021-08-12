@@ -21,7 +21,7 @@ import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.adapter.NoteListAdapter
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
 import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
-import br.com.mmdevelopment.cleannotes.ui.viewmodel.MainViewModel
+import br.com.mmdevelopment.cleannotes.ui.viewmodel.SharedViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvNote: RecyclerView
     private lateinit var toolbar: MaterialToolbar
     private lateinit var sharedPreferences: SharedPreferences
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: SharedViewModel by viewModel()
     private val adapter by lazy { NoteListAdapter { clickedListItem(it) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {

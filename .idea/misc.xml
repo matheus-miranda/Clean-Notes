@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.16770833333333332" />
+        <entry key="app/src/main/res/drawable/ic_day_theme.xml" value="0.16770833333333332" />
+        <entry key="app/src/main/res/drawable/ic_night_theme.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/activity_add_note.xml" value="0.1393110435663627" />
         <entry key="app/src/main/res/layout/note_item.xml" value="0.1393110435663627" />
       </map>
