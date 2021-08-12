@@ -13,7 +13,6 @@ import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,12 +20,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.adapter.NoteListAdapter
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
-import br.com.mmdevelopment.cleannotes.datasource.AppDatabase
-import br.com.mmdevelopment.cleannotes.datasource.NoteRepository
 import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
 import br.com.mmdevelopment.cleannotes.ui.viewmodel.MainViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,10 +32,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvNote: RecyclerView
     private lateinit var toolbar: MaterialToolbar
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModel()
     private val adapter by lazy { NoteListAdapter { clickedListItem(it) } }
-    private val database by lazy { AppDatabase.getDatabase(this) }
-    private val repository by lazy { NoteRepository(database.noteDao()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         sharedPreferences = this.getSharedPreferences("layout", MODE_PRIVATE)
         getSharedPref()
 
@@ -77,8 +72,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                val list = search("%$newText%")
-                adapter.submitList(list)
+                val list = viewModel.search("%$newText%")
+                list.observe(this@MainActivity, {
+                    adapter.submitList(it)
+                })
                 return true
             }
 
@@ -130,14 +127,17 @@ class MainActivity : AppCompatActivity() {
      * Update the list adapter
      */
     private fun updateList() {
-        val list = getAll()
-        if (list.isEmpty()) {
-            binding.emptyInclude.emptyState.visibility = View.VISIBLE
-        } else {
-            binding.emptyInclude.emptyState.visibility = View.GONE
-            binding.rvNotes.visibility = View.VISIBLE
-        }
-        adapter.submitList(list)
+        val list = viewModel.getAll
+        list.observe(this, {
+            if (it.isEmpty()) {
+                binding.emptyInclude.emptyState.visibility = View.VISIBLE
+            } else {
+                binding.emptyInclude.emptyState.visibility = View.GONE
+                binding.rvNotes.visibility = View.VISIBLE
+            }
+            adapter.submitList(it)
+        })
+
     }
 
     /**
@@ -205,7 +205,7 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val item = adapter.currentList[position]
-                delete(item)
+                viewModel.delete(item)
                 updateList()
                 chooseLayout()
 
@@ -216,7 +216,7 @@ class MainActivity : AppCompatActivity() {
                 ).setAnchorView(binding.fabNew)
                     .apply {
                         setAction(resources.getString(R.string.undo)) {
-                            insert(item)
+                            viewModel.insert(item)
                             updateList()
                             chooseLayout()
                         }

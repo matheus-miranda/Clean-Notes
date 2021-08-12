@@ -10,16 +10,19 @@ import br.com.mmdevelopment.cleannotes.databinding.ActivityAddNoteBinding
 import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
 import br.com.mmdevelopment.cleannotes.extensions.format
 import br.com.mmdevelopment.cleannotes.extensions.text
+import br.com.mmdevelopment.cleannotes.ui.viewmodel.MainViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 class AddNoteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddNoteBinding
     private lateinit var toolbar: MaterialToolbar
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +42,7 @@ class AddNoteActivity : AppCompatActivity() {
         if (intent.hasExtra(TASK_ID)) {
             toolbar.title = resources.getString(R.string.edit_note)
             val taskId = intent.getIntExtra(TASK_ID, 0)
-            MainActivity().findById(taskId)?.let {
+            viewModel.findById(taskId)?.let {
                 binding.tilTitle.text = it.title
                 binding.tilDescription.text = it.description.toString()
                 binding.tilDate.text = it.date.toString()
@@ -96,7 +99,7 @@ class AddNoteActivity : AppCompatActivity() {
                 time = binding.tilTime.text,
                 id = intent.getIntExtra(TASK_ID, 0)
             )
-            MainActivity().insert(note)
+            viewModel.insert(note)
             setResult(Activity.RESULT_OK)
             finish()
         }
