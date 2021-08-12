@@ -239,29 +239,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Database functions **********************
-     */
-    private fun getAll(): List<NoteEntity> {
-        return repository.getAll()
-    }
-
-    fun findById(noteId: Int): NoteEntity? {
-        return repository.findById(noteId)
-    }
-
-    fun insert(note: NoteEntity) {
-        repository.insert(note)
-    }
-
-    fun delete(note: NoteEntity) {
-        repository.delete(note)
-    }
-
-    fun search(searchQuery: String): List<NoteEntity> {
-        return repository.search(searchQuery)
-    }
-
     companion object {
         private const val RESULT_CODE_OK = 1000
     }
