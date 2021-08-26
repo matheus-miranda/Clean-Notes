@@ -1,26 +1,26 @@
 # Clean Notes
 
-O app Clean Notes foi o trabalho de conclusão do Bootcamp Santander Mobile Developer proporcionado pela Digital Innovation One.
+Clean Notes is the final project of the Santander Mobile Developer Bootcamp hosted by Digital Innovation One
 
-Update (11/08/21) App refatorado para utilizar injeção de dependencias com Koin, LiveData e Coroutines.
+Update (2021/08/11) App refactored to use Koin, LiveData and Coroutines.
 
-<h2>Funcionalidades</h2>
-<li>Criar e editar tarefas ou lembretes com título, descrição, data e hora</li>
-<li>Swipe para esquerda ou direita para deletar</li>
-<li>Recuperar nota deletada</li>
-<li>Alterar o layout para lista linear ou grade</li>
-<li>Pesquisar pelo título ou descrição</li>
-<li>Adaptado ao modo escuro</li>
-<li>Persistencia dados com Room DB</li>
-<li>Internacionalização: disponível em EN e PT</li>
-<li>Animações de transição</li>
+<h2>Features</h2>
+<li>Create and edit notes with title, description, date and hour</li>
+<li>Swipe left or right to delete</li>
+<li>Snackbar undo delete</li>
+<li>Choose between list or grid layout</li>
+<li>Search notes by title or description</li>
+<li>Dark theme</li>
+<li>Storage with Room Database</li>
+<li>Available in EN and PT</li>
+<li>Transition animations</li>
 <br />
  <table style="width:100%">
   <tr>
-    <th>Primeiro login</th>
-    <th>Modo escuro</th>
-    <th>Criar tarefa</th>
-    <th>Modo escuro</th>
+    <th>First login</th>
+    <th>Dark mode</th>
+    <th>Create note</th>
+    <th>Dark mode</th>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/15269393/125837284-108a2e0c-fc6a-482a-b74b-4df5e72e270f.jpg"></td>
@@ -32,8 +32,8 @@ Update (11/08/21) App refatorado para utilizar injeção de dependencias com Koi
 <br />
  <table style="width:100%">
   <tr>
-    <th>Alterar layout</th>
-    <th>Pesquisar</th>
+    <th>Switch layout</th>
+    <th>Search</th>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/15269393/125836884-7319991e-8264-4417-bafe-a4c4f1ac3f61.gif"></td>
@@ -43,8 +43,8 @@ Update (11/08/21) App refatorado para utilizar injeção de dependencias com Koi
 <br />
 <table style="width:100%">
   <tr>
-    <th>Deletar</th>
-    <th>Editar</th>
+    <th>Delete</th>
+    <th>Edit</th>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/15269393/126582538-f42cfec5-c2f6-4290-8927-4bf3e473f13e.gif"></td>
@@ -54,10 +54,10 @@ Update (11/08/21) App refatorado para utilizar injeção de dependencias com Koi
 <br />
 <table style="width:100%">
   <tr>
-    <th>Tarefas</th>
-    <th>Modo escuro</th>
-    <th>Pesquisar</th>
-    <th>Modo escuro</th>
+    <th>Notes</th>
+    <th>Dark mode</th>
+    <th>Search</th>
+    <th>Dark mode</th>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/15269393/125837293-ca8dabdc-8971-424d-b979-ddcfdd07cbb0.jpg"></td>
