@@ -8,5 +8,6 @@ interface NoteRepository {
     fun search(searchQuery: String): LiveData<List<Note>>
     suspend fun findById(noteId: Int): Note?
     suspend fun insert(note: Note)
+    suspend fun update(note: Note)
     suspend fun delete(note: Note)
 }

@@ -20,5 +20,7 @@ class NoteRepositoryImpl(db: AppDatabase, private val mapper: NoteEntityMapper) 
 
     override suspend fun insert(note: Note) = dao.insert(mapper.toEntity(note))
 
+    override suspend fun update(note: Note) = dao.update(mapper.toEntity(note))
+
     override suspend fun delete(note: Note) = dao.delete(mapper.toEntity(note))
 }
