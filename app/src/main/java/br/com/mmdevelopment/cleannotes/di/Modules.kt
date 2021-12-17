@@ -1,6 +1,8 @@
 package br.com.mmdevelopment.cleannotes.di
 
 import br.com.mmdevelopment.cleannotes.data.local.AppDatabase
+import br.com.mmdevelopment.cleannotes.data.mapper.NoteEntityMapper
+import br.com.mmdevelopment.cleannotes.data.mapper.NoteEntityMapperImpl
 import br.com.mmdevelopment.cleannotes.data.repositoryimpl.NoteRepositoryImpl
 import br.com.mmdevelopment.cleannotes.presentation.ui.viewmodel.SharedViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -16,10 +18,14 @@ val repository = module {
     factory { NoteRepositoryImpl(dao = get()) }
 }
 
+val mapper = module {
+    factory<NoteEntityMapper> { NoteEntityMapperImpl() }
+}
+
 val viewModel = module {
     viewModel { SharedViewModel(get()) }
 }
 
 object AppModules {
-    val modules = data + repository + viewModel
+    val modules = data + repository + mapper + viewModel
 }
