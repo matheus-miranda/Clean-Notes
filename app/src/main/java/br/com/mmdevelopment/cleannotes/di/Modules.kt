@@ -1,7 +1,7 @@
 package br.com.mmdevelopment.cleannotes.di
 
 import br.com.mmdevelopment.cleannotes.data.local.AppDatabase
-import br.com.mmdevelopment.cleannotes.data.repositoryimpl.NoteRepository
+import br.com.mmdevelopment.cleannotes.data.repositoryimpl.NoteRepositoryImpl
 import br.com.mmdevelopment.cleannotes.presentation.ui.viewmodel.SharedViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -13,7 +13,7 @@ val data = module {
 }
 
 val repository = module {
-    factory { NoteRepository(dao = get()) }
+    factory { NoteRepositoryImpl(dao = get()) }
 }
 
 val viewModel = module {

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import br.com.mmdevelopment.cleannotes.data.local.dao.NoteDao
 import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
 
-class NoteRepository(private val dao: NoteDao) {
+class NoteRepositoryImpl(private val dao: NoteDao) {
 
     val getAll: LiveData<List<NoteEntity>> = dao.getAll()
 
