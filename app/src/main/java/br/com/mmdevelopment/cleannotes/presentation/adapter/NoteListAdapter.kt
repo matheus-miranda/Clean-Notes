@@ -1,4 +1,4 @@
-package br.com.mmdevelopment.cleannotes.adapter
+package br.com.mmdevelopment.cleannotes.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.mmdevelopment.cleannotes.databinding.NoteItemBinding
-import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
+import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
 
 class NoteListAdapter(private val clickHandler: (NoteEntity) -> Unit) :
     ListAdapter<NoteEntity, NoteListAdapter.NoteListViewHolder>(DIFF_CONFIG) {

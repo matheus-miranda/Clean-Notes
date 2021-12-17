@@ -1,8 +1,9 @@
-package br.com.mmdevelopment.cleannotes.datasource
+package br.com.mmdevelopment.cleannotes.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
+import br.com.mmdevelopment.cleannotes.data.local.dao.NoteDao
+import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
 
 @Database(entities = [NoteEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

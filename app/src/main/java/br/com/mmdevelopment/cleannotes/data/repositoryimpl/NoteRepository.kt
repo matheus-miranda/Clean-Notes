@@ -1,7 +1,8 @@
-package br.com.mmdevelopment.cleannotes.datasource
+package br.com.mmdevelopment.cleannotes.data.repositoryimpl
 
 import androidx.lifecycle.LiveData
-import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
+import br.com.mmdevelopment.cleannotes.data.local.dao.NoteDao
+import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
 
 class NoteRepository(private val dao: NoteDao) {
 

@@ -1,4 +1,4 @@
-package br.com.mmdevelopment.cleannotes.ui
+package br.com.mmdevelopment.cleannotes.presentation.ui
 
 import android.app.Activity
 import android.os.Bundle
@@ -7,10 +7,10 @@ import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.databinding.ActivityAddNoteBinding
-import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
-import br.com.mmdevelopment.cleannotes.extensions.format
-import br.com.mmdevelopment.cleannotes.extensions.text
-import br.com.mmdevelopment.cleannotes.ui.viewmodel.SharedViewModel
+import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
+import br.com.mmdevelopment.cleannotes.core.format
+import br.com.mmdevelopment.cleannotes.core.text
+import br.com.mmdevelopment.cleannotes.presentation.ui.viewmodel.SharedViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker

@@ -1,4 +1,4 @@
-package br.com.mmdevelopment.cleannotes.ui
+package br.com.mmdevelopment.cleannotes.presentation.ui
 
 import android.app.Activity
 import android.app.ActivityOptions
@@ -18,10 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.mmdevelopment.cleannotes.R
-import br.com.mmdevelopment.cleannotes.adapter.NoteListAdapter
+import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
-import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
-import br.com.mmdevelopment.cleannotes.ui.viewmodel.SharedViewModel
+import br.com.mmdevelopment.cleannotes.presentation.adapter.NoteListAdapter
+import br.com.mmdevelopment.cleannotes.presentation.ui.viewmodel.SharedViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel

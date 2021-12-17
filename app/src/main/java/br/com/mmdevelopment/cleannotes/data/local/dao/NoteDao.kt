@@ -1,8 +1,8 @@
-package br.com.mmdevelopment.cleannotes.datasource
+package br.com.mmdevelopment.cleannotes.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
+import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
 
 @Dao
 interface NoteDao {

@@ -1,10 +1,10 @@
-package br.com.mmdevelopment.cleannotes.ui.viewmodel
+package br.com.mmdevelopment.cleannotes.presentation.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.mmdevelopment.cleannotes.datasource.NoteRepository
-import br.com.mmdevelopment.cleannotes.datasource.model.NoteEntity
+import br.com.mmdevelopment.cleannotes.data.repositoryimpl.NoteRepository
+import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 

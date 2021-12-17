@@ -1,8 +1,8 @@
-package br.com.mmdevelopment.cleannotes.datasource.di
+package br.com.mmdevelopment.cleannotes.di
 
 import androidx.room.Room
-import br.com.mmdevelopment.cleannotes.datasource.AppDatabase
-import br.com.mmdevelopment.cleannotes.datasource.NoteRepository
+import br.com.mmdevelopment.cleannotes.data.local.AppDatabase
+import br.com.mmdevelopment.cleannotes.data.repositoryimpl.NoteRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

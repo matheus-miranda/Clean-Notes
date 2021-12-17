@@ -1,4 +1,4 @@
-package br.com.mmdevelopment.cleannotes.datasource.model
+package br.com.mmdevelopment.cleannotes.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

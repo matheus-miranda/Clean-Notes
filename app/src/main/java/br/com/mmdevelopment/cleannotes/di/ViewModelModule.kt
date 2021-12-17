@@ -1,6 +1,6 @@
-package br.com.mmdevelopment.cleannotes.ui.di
+package br.com.mmdevelopment.cleannotes.di
 
-import br.com.mmdevelopment.cleannotes.ui.viewmodel.SharedViewModel
+import br.com.mmdevelopment.cleannotes.presentation.ui.viewmodel.SharedViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

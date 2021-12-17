@@ -1,4 +1,4 @@
-package br.com.mmdevelopment.cleannotes.extensions
+package br.com.mmdevelopment.cleannotes.core
 
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
