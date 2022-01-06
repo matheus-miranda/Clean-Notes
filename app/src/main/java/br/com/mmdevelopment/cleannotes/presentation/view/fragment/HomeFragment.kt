@@ -28,13 +28,12 @@ class HomeFragment : Fragment(), HomeContract.View {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-        presenter!!.setView(this)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        presenter!!.setView(this)
         bindAdapter()
         bindListeners()
         presenter!!.getAllNotes()
@@ -72,7 +71,8 @@ class HomeFragment : Fragment(), HomeContract.View {
                 return true
             }
         })
-    */}
+    */
+    }
 
     override fun showNotesOnRecycleView(list: List<Note>) {
         adapter.submitList(list)
@@ -84,10 +84,15 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun showEmptyList(shouldDisplay: Boolean) {
         if (shouldDisplay) {
-            binding.emptyInclude.emptyState.visibility = View.VISIBLE
-            binding.rvNotes.visibility = View.GONE
+            binding.apply {
+                emptyInclude.emptyState.visibility = View.VISIBLE
+                rvNotes.visibility = View.GONE
+            }
         } else {
-            binding.emptyInclude.emptyState.visibility = View.GONE
+            binding.apply {
+                emptyInclude.emptyState.visibility = View.GONE
+                rvNotes.visibility = View.VISIBLE
+            }
         }
     }
 

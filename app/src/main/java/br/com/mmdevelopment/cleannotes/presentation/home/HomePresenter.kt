@@ -29,6 +29,8 @@ class HomePresenter(private var view: HomeContract.View?, private val repository
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { list ->
+                        if (list.isNotEmpty()) homeView.showEmptyList(false)
+                        else homeView.showEmptyList(true)
                         homeView.showNotesOnRecycleView(list)
                     },
                     { error ->
