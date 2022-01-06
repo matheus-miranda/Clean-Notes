@@ -5,9 +5,13 @@ import br.com.mmdevelopment.cleannotes.data.mapper.NoteEntityMapper
 import br.com.mmdevelopment.cleannotes.data.mapper.NoteEntityMapperImpl
 import br.com.mmdevelopment.cleannotes.data.repositoryimpl.NoteRepositoryImpl
 import br.com.mmdevelopment.cleannotes.domain.repository.NoteRepository
-import br.com.mmdevelopment.cleannotes.presentation.ui.viewmodel.SharedViewModel
+import br.com.mmdevelopment.cleannotes.presentation.addnote.AddNoteContract
+import br.com.mmdevelopment.cleannotes.presentation.addnote.AddNotePresenter
+import br.com.mmdevelopment.cleannotes.presentation.home.HomeContract
+import br.com.mmdevelopment.cleannotes.presentation.home.HomePresenter
+import br.com.mmdevelopment.cleannotes.presentation.view.fragment.AddNoteFragment
+import br.com.mmdevelopment.cleannotes.presentation.view.fragment.HomeFragment
 import org.koin.android.ext.koin.androidApplication
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val data = module {
@@ -22,10 +26,11 @@ val mapper = module {
     factory<NoteEntityMapper> { NoteEntityMapperImpl() }
 }
 
-val viewModel = module {
-    viewModel { SharedViewModel(get()) }
+val mvp = module {
+    factory<HomeContract.Presenter> { HomePresenter(view = HomeFragment(), repository = get()) }
+    factory<AddNoteContract.Presenter> { AddNotePresenter(view = AddNoteFragment(), repository = get())}
 }
 
 object AppModules {
-    val modules = data + repository + mapper + viewModel
+    val modules = data + repository + mapper + mvp
 }

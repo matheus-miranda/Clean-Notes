@@ -1,26 +1,28 @@
 package br.com.mmdevelopment.cleannotes.data.local.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Maybe
 
 @Dao
 interface NoteDao {
     @Query("SELECT * FROM NoteEntity")
-    fun getAll(): LiveData<List<NoteEntity>>
+    fun getAll(): Flowable<List<NoteEntity>>
 
     @Query("SELECT * FROM NoteEntity WHERE title LIKE (:searchQuery) OR description LIKE (:searchQuery)")
-    fun searchDatabase(searchQuery: String): LiveData<List<NoteEntity>>
+    fun searchDatabase(searchQuery: String): Flowable<List<NoteEntity>>
 
     @Query("SELECT * FROM NoteEntity WHERE id = (:noteId)")
-    suspend fun findById(noteId: Int): NoteEntity?
+    fun findById(noteId: Int): Maybe<NoteEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(note: NoteEntity)
+    fun insert(note: NoteEntity): Completable
 
     @Update
-    suspend fun update(note: NoteEntity)
+    fun update(note: NoteEntity): Completable
 
     @Delete
-    suspend fun delete(note: NoteEntity)
+    fun delete(note: NoteEntity): Completable
 }

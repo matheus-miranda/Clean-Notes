@@ -1,13 +1,15 @@
 package br.com.mmdevelopment.cleannotes.domain.repository
 
-import androidx.lifecycle.LiveData
 import br.com.mmdevelopment.cleannotes.domain.model.Note
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Maybe
 
 interface NoteRepository {
-    fun getNotes(): LiveData<List<Note>>
-    fun search(searchQuery: String): LiveData<List<Note>>
-    suspend fun findById(noteId: Int): Note?
-    suspend fun insert(note: Note)
-    suspend fun update(note: Note)
-    suspend fun delete(note: Note)
+    fun getNotes(): Flowable<List<Note>>
+    fun search(searchQuery: String): Flowable<List<Note>>
+    fun findById(noteId: Int): Maybe<Note>
+    fun insert(note: Note): Completable
+    fun update(note: Note): Completable
+    fun delete(note: Note): Completable
 }

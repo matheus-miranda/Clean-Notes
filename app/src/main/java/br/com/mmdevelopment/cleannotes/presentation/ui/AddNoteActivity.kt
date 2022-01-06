@@ -1,26 +1,10 @@
 package br.com.mmdevelopment.cleannotes.presentation.ui
 
-import android.app.Activity
-import android.os.Bundle
-import android.transition.Slide
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
-import br.com.mmdevelopment.cleannotes.R
-import br.com.mmdevelopment.cleannotes.databinding.ActivityAddNoteBinding
-import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
-import br.com.mmdevelopment.cleannotes.core.format
-import br.com.mmdevelopment.cleannotes.core.text
-import br.com.mmdevelopment.cleannotes.presentation.ui.viewmodel.SharedViewModel
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class AddNoteActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAddNoteBinding
+  /*  private lateinit var binding: ActivityAddNoteBinding
     private lateinit var toolbar: MaterialToolbar
     private val viewModel: SharedViewModel by viewModel()
 
@@ -31,14 +15,14 @@ class AddNoteActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setToolbar()
-        getExtra()
+        //getExtra()
         insertListeners()
     }
 
-    /**
+    *//**
      * Populate fields if editing a note
-     */
-    private fun getExtra() {
+     *//*
+    *//*private fun getExtra() {
         if (intent.hasExtra(TASK_ID)) {
             toolbar.title = resources.getString(R.string.edit_note)
             val taskId = intent.getIntExtra(TASK_ID, 0)
@@ -49,11 +33,11 @@ class AddNoteActivity : AppCompatActivity() {
                 binding.tilTime.text = it.time.toString()
             }
         }
-    }
+    }*//*
 
-    /**
+    *//**
      * Set up toolbar and behavior of navigation icon
-     */
+     *//*
     private fun setToolbar() {
         toolbar = binding.toolbar
         setSupportActionBar(toolbar)
@@ -62,9 +46,9 @@ class AddNoteActivity : AppCompatActivity() {
         }
     }
 
-    /**
+    *//**
      * onClickListeners for create button, date and time pickers
-     */
+     *//*
     private fun insertListeners() {
         binding.tilDate.editText?.setOnClickListener {
             val datePicker = MaterialDatePicker.Builder.datePicker().build()
@@ -99,15 +83,15 @@ class AddNoteActivity : AppCompatActivity() {
                 time = binding.tilTime.text,
                 id = intent.getIntExtra(TASK_ID, 0)
             )
-            viewModel.insert(note)
+            *//*viewModel.insert(note)
             setResult(Activity.RESULT_OK)
-            finish()
+            finish()*//*
         }
     }
 
-    /**
+    *//**
      * Check for empty text fields before adding to list
-     */
+     *//*
     private fun validateFields() {
         // Check if title is empty and set placeholder string
         if (binding.tilTitle.text.trim().isEmpty()) {
@@ -115,9 +99,9 @@ class AddNoteActivity : AppCompatActivity() {
         }
     }
 
-    /**
+    *//**
      * Creates transition animations
-     */
+     *//*
     private fun animationTransitions() {
         with(window) {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
@@ -129,5 +113,5 @@ class AddNoteActivity : AppCompatActivity() {
 
     companion object {
         const val TASK_ID = "task_id"
-    }
+    }*/
 }

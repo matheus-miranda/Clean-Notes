@@ -1,69 +1,47 @@
 package br.com.mmdevelopment.cleannotes.presentation.ui
 
-import android.app.Activity
-import android.app.ActivityOptions
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.transition.Explode
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import br.com.mmdevelopment.cleannotes.R
-import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
-import br.com.mmdevelopment.cleannotes.presentation.adapter.NoteListAdapter
-import br.com.mmdevelopment.cleannotes.presentation.ui.viewmodel.SharedViewModel
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.snackbar.Snackbar
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var rvNote: RecyclerView
-    private lateinit var toolbar: MaterialToolbar
-    private lateinit var sharedPreferences: SharedPreferences
-    private val viewModel: SharedViewModel by viewModel()
-    private val adapter by lazy { NoteListAdapter { clickedListItem(it) } }
+//    private lateinit var rvNote: RecyclerView
+//    private lateinit var toolbar: MaterialToolbar
+//    private lateinit var sharedPreferences: SharedPreferences
+//    private val viewModel: SharedViewModel by viewModel()
+    //private val adapter by lazy { NoteListAdapter { clickedListItem(it) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        animationTransitions() // Call animations before inflating the layout
+        //animationTransitions() // Call animations before inflating the layout
         // Inflate the layout with ViewBinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedPreferences = this.getSharedPreferences("layout", MODE_PRIVATE)
-        getSharedPref()
+        //sharedPreferences = this.getSharedPreferences("layout", MODE_PRIVATE)
+       // getSharedPref()
 
-        setToolbar() // Inflate toolbar with options menu
+        //setToolbar() // Inflate toolbar with options menu
 
         // Initialize the RecyclerView
-        rvNote = binding.rvNotes
-        rvNote.adapter = adapter
+        //rvNote = binding.rvNotes
+        //rvNote.adapter = adapter
 
-        updateList()
+        /*updateList()
         searchView()
         swipeToDelete()
         chooseLayout()
-        insertListeners() // Handle click listeners
+        insertListeners()*/ // Handle click listeners
     }
 
-    private fun getSharedPref() {
+    /*private fun getSharedPref() {
         val isLinearLayout = sharedPreferences.getBoolean("layout", true)
         viewModel.isLinearLayoutManager = isLinearLayout
-    }
+    }*/
 
-    private fun searchView() {
+    /*private fun searchView() {
         val searchView: SearchView = binding.searchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -80,18 +58,18 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-    }
+    }*/
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
 
         val layoutButton = menu?.findItem(R.id.switch_layout)
         setIcon(layoutButton)
 
         return true
-    }
+    }*/
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+  /*  override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.switch_layout -> {
                 // Sets isGridLayoutManager to the opposite value
@@ -107,26 +85,26 @@ class MainActivity : AppCompatActivity() {
             //  Otherwise, do nothing and use the core event handling
             else -> super.onOptionsItemSelected(item)
         }
-    }
+    }*/
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RESULT_CODE_OK && resultCode == Activity.RESULT_OK) {
             //rvNote.adapter = adapter
-            updateList()
+            //updateList()
         }
-    }
+    }*/
 
-    private fun setToolbar() {
-        toolbar = binding.tbMain
+    /*private fun setToolbar() {
+        //toolbar = binding.tbMain
         toolbar.title = ""
         setSupportActionBar(toolbar)
-    }
+    }*/
 
     /**
      * Update the list adapter
      */
-    private fun updateList() {
+    /*private fun updateList() {
         val list = viewModel.getAll
         list.observe(this, {
             if (it.isEmpty()) {
@@ -137,37 +115,36 @@ class MainActivity : AppCompatActivity() {
             }
             adapter.submitList(it)
         })
-
-    }
+    }*/
 
     /**
      * Switches the LayoutManager
      */
-    private fun chooseLayout() {
+    /*private fun chooseLayout() {
         if (viewModel.isLinearLayoutManager) {
             rvNote.layoutManager = LinearLayoutManager(this)
         } else {
             rvNote.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         }
-    }
+    }*/
 
     /**
      * Set menu icon for layout and theme
      */
-    private fun setIcon(menuItem: MenuItem?) {
+    /*private fun setIcon(menuItem: MenuItem?) {
         if (menuItem == null) return
         menuItem.icon = if (viewModel.isLinearLayoutManager)
             ContextCompat.getDrawable(this, R.drawable.ic_grid_layout)
         else {
             ContextCompat.getDrawable(this, R.drawable.ic_linear_layout)
         }
-    }
+    }*/
 
     /**
      * Fab clickListener
      */
-    private fun insertListeners() {
+    /*private fun insertListeners() {
         binding.fabNew.setOnClickListener {
             startActivityForResult(
                 Intent(this, AddNoteActivity::class.java),
@@ -175,22 +152,22 @@ class MainActivity : AppCompatActivity() {
                 ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             )
         }
-    }
+    }*/
 
     /**
      * Called whenever a note is clicked by the user
      */
-    private fun clickedListItem(note: NoteEntity) {
+    /*private fun clickedListItem(note: NoteEntity) {
         val intent = Intent(this, AddNoteActivity::class.java).also {
             it.putExtra(AddNoteActivity.TASK_ID, note.id)
         }
         startActivityForResult(intent, RESULT_CODE_OK)
-    }
+    }*/
 
     /**
      * Handles the swipe on recycler view to delete item
      */
-    private fun swipeToDelete() {
+    /*private fun swipeToDelete() {
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
@@ -225,21 +202,21 @@ class MainActivity : AppCompatActivity() {
             }
 
         }).attachToRecyclerView(rvNote)
-    }
+    }*/
 
     /**
      * Creates transition animations
      */
-    private fun animationTransitions() {
+    /*private fun animationTransitions() {
         with(window) {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
             // set the transition to be shown when the user enters this activity
             enterTransition = Explode()
             enterTransition.duration = 250
         }
-    }
+    }*/
 
-    companion object {
+    /*companion object {
         private const val RESULT_CODE_OK = 1000
-    }
+    }*/
 }
