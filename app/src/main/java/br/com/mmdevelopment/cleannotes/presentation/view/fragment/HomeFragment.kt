@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +37,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         presenter!!.setView(this)
         bindAdapter()
         bindListeners()
+        bindSearchView()
         presenter!!.getAllNotes()
     }
 
@@ -58,20 +60,19 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun bindSearchView() {
-        /*binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null) {
-                    presenter!!.onSearch(newText)
+                newText?.let {
+                    presenter!!.onSearch(it)
                 }
                 return true
             }
         })
-    */
     }
 
     override fun showNotesOnRecycleView(list: List<Note>) {

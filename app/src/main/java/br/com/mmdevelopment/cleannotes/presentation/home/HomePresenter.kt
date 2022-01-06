@@ -1,9 +1,9 @@
 package br.com.mmdevelopment.cleannotes.presentation.home
 
-import android.util.Log
 import br.com.mmdevelopment.cleannotes.domain.repository.NoteRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
 
 class HomePresenter(private var view: HomeContract.View?, private val repository: NoteRepository) :
     HomeContract.Presenter {
@@ -17,8 +17,18 @@ class HomePresenter(private var view: HomeContract.View?, private val repository
     }
 
     override fun onSearch(query: String) {
-        view?.let {
-            val result = repository.search(query)
+        view?.let { homeView ->
+            repository.search("%$query%")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        homeView.showNotesOnRecycleView(it)
+                    },
+                    { error ->
+                        Timber.e("Error searching notes " + error.message)
+                    }
+                )
         }
     }
 
@@ -34,7 +44,7 @@ class HomePresenter(private var view: HomeContract.View?, private val repository
                         homeView.showNotesOnRecycleView(list)
                     },
                     { error ->
-                        Log.e("HomePresenter", "Error getting notes ${error.message}")
+                        Timber.e("Error getting notes " + error.message)
                     }
                 )
         }

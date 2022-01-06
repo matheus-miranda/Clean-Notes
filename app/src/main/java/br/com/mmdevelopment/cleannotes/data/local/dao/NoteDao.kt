@@ -11,7 +11,7 @@ interface NoteDao {
     @Query("SELECT * FROM NoteEntity")
     fun getAll(): Flowable<List<NoteEntity>>
 
-    @Query("SELECT * FROM NoteEntity WHERE title LIKE (:searchQuery) OR description LIKE (:searchQuery)")
+    @Query("SELECT * FROM NoteEntity WHERE title LIKE :searchQuery OR description LIKE :searchQuery")
     fun searchDatabase(searchQuery: String): Flowable<List<NoteEntity>>
 
     @Query("SELECT * FROM NoteEntity WHERE id = (:noteId)")
