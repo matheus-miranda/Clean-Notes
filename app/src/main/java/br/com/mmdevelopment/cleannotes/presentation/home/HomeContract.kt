@@ -10,6 +10,7 @@ interface HomeContract {
         fun editNoteNavigation(note: Note)
         fun showEmptyList(shouldDisplay: Boolean)
         fun addNewNote()
+        fun swipeToDelete()
     }
 
     interface Presenter {
@@ -17,5 +18,7 @@ interface HomeContract {
         fun onSearch(query: String)
         fun getAllNotes()
         fun setView(view: View)
+        fun delete(note: Note)
+        fun insertNote(note: Note)
     }
 }

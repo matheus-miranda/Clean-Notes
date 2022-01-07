@@ -1,5 +1,6 @@
 package br.com.mmdevelopment.cleannotes.presentation.home
 
+import br.com.mmdevelopment.cleannotes.domain.model.Note
 import br.com.mmdevelopment.cleannotes.domain.repository.NoteRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -47,6 +48,24 @@ class HomePresenter(private var view: HomeContract.View?, private val repository
                         Timber.e("Error getting notes " + error.message)
                     }
                 )
+        }
+    }
+
+    override fun delete(note: Note) {
+        view?.let {
+            repository.delete(note)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        }
+    }
+
+    override fun insertNote(note: Note) {
+        view?.let {
+            repository.insert(note)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
         }
     }
 }

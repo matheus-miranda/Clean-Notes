@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.databinding.FragmentHomeBinding
 import br.com.mmdevelopment.cleannotes.domain.model.Note
 import br.com.mmdevelopment.cleannotes.presentation.adapter.NoteListAdapter
 import br.com.mmdevelopment.cleannotes.presentation.home.HomeContract
 import br.com.mmdevelopment.cleannotes.presentation.home.HomeContract.Presenter
+import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 
 class HomeFragment : Fragment(), HomeContract.View {
@@ -36,6 +40,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         presenter!!.setView(this)
         bindAdapter()
         bindListeners()
+        swipeToDelete()
         // bindSearchView() TODO get correct adapter position from new list when clicked, else crashes
         presenter!!.getAllNotes()
     }
@@ -98,6 +103,41 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun addNewNote() {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(0))
+    }
+
+    override fun swipeToDelete() {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val note = adapter.currentList[position]
+                presenter!!.delete(note)
+                //chooseLayout()
+
+                Snackbar.make(
+                    binding.root,
+                    resources.getString(R.string.deleted),
+                    Snackbar.LENGTH_LONG
+                ).setAnchorView(binding.fabNew)
+                    .apply {
+                        setAction(resources.getString(R.string.undo)) {
+                            presenter!!.insertNote(note)
+                            //chooseLayout()
+                        }
+                        show()
+                    }
+            }
+
+        }).attachToRecyclerView(binding.rvNotes)
     }
 
 }
