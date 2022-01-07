@@ -25,6 +25,22 @@ class AddNotePresenter(
         view = null
     }
 
+    override fun getNoteById(id: Int) {
+        view?.let { addNoteView ->
+            repository.findById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        addNoteView.populateFields(it)
+                    },
+                    {
+                        Timber.e("Error getting note by id: ${it.message}")
+                    }
+                )
+        }
+    }
+
     private fun onComplete() {
         Timber.e("successful db insert")
     }

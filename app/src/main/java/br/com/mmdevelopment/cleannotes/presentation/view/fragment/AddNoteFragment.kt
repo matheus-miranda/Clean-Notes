@@ -50,15 +50,25 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
         _binding = null
     }
 
+    override fun findNoteById() {
+        args?.note?.let {
+            presenter!!.getNoteById(it.id)
+        }
+    }
+
+    override fun populateFields(note: Note) {
+        binding.apply {
+            toolbar.title = resources.getString(R.string.edit_note)
+            tilTitle.text = note.title
+            tilDescription.text = note.description.toString()
+            tilDate.text = note.date.toString()
+            tilTime.text = note.time.toString()
+        }
+    }
+
     private fun populateFieldsIfEditingNote() {
         args?.note?.let {
-            binding.apply {
-                toolbar.title = resources.getString(R.string.edit_note)
-                tilTitle.text = it.title
-                tilDescription.text = it.description.toString()
-                tilDate.text = it.date.toString()
-                tilTime.text = it.time.toString()
-            }
+            presenter!!.getNoteById(it.id)
         }
     }
 
@@ -83,6 +93,7 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
 
     private fun saveNote() {
         val note = Note(
+            id = args?.note?.id ?: 0,
             title = binding.tilTitle.text,
             description = binding.tilDescription.text,
             date = binding.tilDate.text,
