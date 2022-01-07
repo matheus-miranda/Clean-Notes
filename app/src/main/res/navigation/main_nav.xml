@@ -20,6 +20,7 @@
         tools:layout="@layout/fragment_add_note">
         <argument
             android:name="note"
-            app:argType="br.com.mmdevelopment.cleannotes.domain.model.Note" />
+            app:argType="br.com.mmdevelopment.cleannotes.domain.model.Note"
+            app:nullable="true" />
     </fragment>
 </navigation>

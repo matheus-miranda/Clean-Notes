@@ -1,10 +1,10 @@
 package br.com.mmdevelopment.cleannotes.presentation.addnote
 
-import android.util.Log
 import br.com.mmdevelopment.cleannotes.domain.model.Note
 import br.com.mmdevelopment.cleannotes.domain.repository.NoteRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
 
 class AddNotePresenter(
     private var view: AddNoteContract.View?, private val repository: NoteRepository
@@ -17,12 +17,16 @@ class AddNotePresenter(
             .subscribe(::onComplete, Throwable::printStackTrace)
     }
 
+    override fun setView(view: AddNoteContract.View) {
+        this.view = view
+    }
+
     override fun detachView() {
         view = null
     }
 
     private fun onComplete() {
-        Log.e("AddNotePresenter", "successful db insert")
+        Timber.e("successful db insert")
     }
 
 }

@@ -9,7 +9,8 @@ interface AddNoteContract {
     }
 
     interface Presenter {
-        fun insertNote(note: Note)
+        fun setView(view: View)
         fun detachView()
+        fun insertNote(note: Note)
     }
 }

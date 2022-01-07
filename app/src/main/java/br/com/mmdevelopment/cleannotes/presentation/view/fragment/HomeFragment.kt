@@ -8,7 +8,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.databinding.FragmentHomeBinding
 import br.com.mmdevelopment.cleannotes.domain.model.Note
 import br.com.mmdevelopment.cleannotes.presentation.adapter.NoteListAdapter
@@ -37,7 +36,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         presenter!!.setView(this)
         bindAdapter()
         bindListeners()
-        bindSearchView()
+        // bindSearchView() TODO get correct adapter position from new list when clicked, else crashes
         presenter!!.getAllNotes()
     }
 
@@ -98,7 +97,7 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun addNewNote() {
-        findNavController().navigate(R.id.action_homeFragment_to_addNoteFragment)
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(null))
     }
 
 }
