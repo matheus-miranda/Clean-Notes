@@ -79,7 +79,7 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun editNoteNavigation(note: Note) {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(note))
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(note.id))
     }
 
     override fun showEmptyList(shouldDisplay: Boolean) {
@@ -97,7 +97,7 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun addNewNote() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(null))
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNoteFragment(0))
     }
 
 }

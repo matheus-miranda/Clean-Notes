@@ -27,7 +27,7 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
 
     private val presenter: AddNoteContract.Presenter? by inject()
 
-    private val args: AddNoteFragmentArgs? by navArgs()
+    private val args: AddNoteFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +40,7 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter!!.setView(this)
-        if (args !== null) populateFieldsIfEditingNote()
+        if (args.noteId != 0) findNoteById()
         bindListeners()
     }
 
@@ -51,9 +51,7 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
     }
 
     override fun findNoteById() {
-        args?.note?.let {
-            presenter!!.getNoteById(it.id)
-        }
+        presenter!!.getNoteById(args.noteId)
     }
 
     override fun populateFields(note: Note) {
@@ -63,12 +61,6 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
             tilDescription.text = note.description.toString()
             tilDate.text = note.date.toString()
             tilTime.text = note.time.toString()
-        }
-    }
-
-    private fun populateFieldsIfEditingNote() {
-        args?.note?.let {
-            presenter!!.getNoteById(it.id)
         }
     }
 
@@ -93,7 +85,7 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
 
     private fun saveNote() {
         val note = Note(
-            id = args?.note?.id ?: 0,
+            id = args.noteId,
             title = binding.tilTitle.text,
             description = binding.tilDescription.text,
             date = binding.tilDate.text,
