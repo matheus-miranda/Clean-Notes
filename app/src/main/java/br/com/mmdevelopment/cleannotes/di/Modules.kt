@@ -26,11 +26,11 @@ val mapper = module {
     factory<NoteEntityMapper> { NoteEntityMapperImpl() }
 }
 
-val mvp = module {
+val presenter = module {
     factory<HomeContract.Presenter> { HomePresenter(view = HomeFragment(), repository = get()) }
     factory<AddNoteContract.Presenter> { AddNotePresenter(view = AddNoteFragment(), repository = get())}
 }
 
 object AppModules {
-    val modules = data + repository + mapper + mvp
+    val modules = data + repository + mapper + presenter
 }
