@@ -2,8 +2,13 @@ package br.com.mmdevelopment.cleannotes.util
 
 import br.com.mmdevelopment.cleannotes.data.local.entity.NoteEntity
 import br.com.mmdevelopment.cleannotes.domain.model.Note
+import io.mockk.MockKAnnotations
 
 object TestData {
+
+    fun Any.initMockkAnnotations() {
+        MockKAnnotations.init(this, relaxUnitFun = true)
+    }
 
     val NOTE =
         Note(
