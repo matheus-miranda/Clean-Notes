@@ -31,7 +31,6 @@ class HomePresenterTest {
     fun setUp() {
         initMockkAnnotations()
         homePresenter = HomePresenter(view, repository)
-        homePresenter.setView(view)
 
         RxAndroidPlugins.setInitMainThreadSchedulerHandler {
             Schedulers.trampoline()
