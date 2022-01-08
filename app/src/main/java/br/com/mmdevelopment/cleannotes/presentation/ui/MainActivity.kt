@@ -2,6 +2,10 @@ package br.com.mmdevelopment.cleannotes.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,8 +24,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        NavigationUI.setupActionBarWithNavController(this, getNavController())
+
         //sharedPreferences = this.getSharedPreferences("layout", MODE_PRIVATE)
-       // getSharedPref()
+        // getSharedPref()
 
         //setToolbar() // Inflate toolbar with options menu
 
@@ -34,6 +40,16 @@ class MainActivity : AppCompatActivity() {
         swipeToDelete()
         chooseLayout()
         insertListeners()*/ // Handle click listeners
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return getNavController().navigateUp()
+    }
+
+    private fun getNavController(): NavController {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        return navHostFragment.navController
     }
 
     /*private fun getSharedPref() {
@@ -69,23 +85,23 @@ class MainActivity : AppCompatActivity() {
         return true
     }*/
 
-  /*  override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.switch_layout -> {
-                // Sets isGridLayoutManager to the opposite value
-                viewModel.isLinearLayoutManager = !viewModel.isLinearLayoutManager
-                sharedPreferences.edit().putBoolean("layout", viewModel.isLinearLayoutManager)
-                    .apply()
-                // Sets layout and icon
-                chooseLayout()
-                setIcon(item)
+    /*  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+          return when (item.itemId) {
+              R.id.switch_layout -> {
+                  // Sets isGridLayoutManager to the opposite value
+                  viewModel.isLinearLayoutManager = !viewModel.isLinearLayoutManager
+                  sharedPreferences.edit().putBoolean("layout", viewModel.isLinearLayoutManager)
+                      .apply()
+                  // Sets layout and icon
+                  chooseLayout()
+                  setIcon(item)
 
-                return true
-            }
-            //  Otherwise, do nothing and use the core event handling
-            else -> super.onOptionsItemSelected(item)
-        }
-    }*/
+                  return true
+              }
+              //  Otherwise, do nothing and use the core event handling
+              else -> super.onOptionsItemSelected(item)
+          }
+      }*/
 
     /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

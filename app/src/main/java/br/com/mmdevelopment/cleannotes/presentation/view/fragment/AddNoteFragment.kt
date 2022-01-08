@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -41,7 +42,17 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
         super.onViewCreated(view, savedInstanceState)
         presenter!!.setView(this)
         if (args.noteId != 0) findNoteById()
+        setToolbarTitle()
         bindListeners()
+    }
+
+    private fun setToolbarTitle() {
+        if (args.noteId != 0) {
+            (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.edit_note)
+        } else {
+            (activity as AppCompatActivity).supportActionBar?.title =
+                getString(R.string.create_note)
+        }
     }
 
     override fun onDestroyView() {
@@ -56,7 +67,6 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
 
     override fun populateFields(note: Note) {
         binding.apply {
-            toolbar.title = resources.getString(R.string.edit_note)
             tilTitle.text = note.title
             tilDescription.text = note.description.toString()
             tilDate.text = note.date.toString()
@@ -65,10 +75,6 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
     }
 
     private fun bindListeners() {
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-
         binding.tilDate.editText?.setOnClickListener {
             getDate()
         }
