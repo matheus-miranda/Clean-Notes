@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -35,7 +35,6 @@ class HomeFragment : Fragment(), HomeContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        (activity as AppCompatActivity).supportActionBar?.title = ""
     }
 
     override fun onCreateView(
@@ -92,8 +91,8 @@ class HomeFragment : Fragment(), HomeContract.View {
         }
     }
 
-    override fun bindSearchView() {
-        /*binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+    override fun bindSearchView(searchView: SearchView) {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -105,12 +104,17 @@ class HomeFragment : Fragment(), HomeContract.View {
                 }
                 return true
             }
-        })*/
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.options_menu, menu)
         val layoutButton = menu.findItem(R.id.switch_layout)
+
+        val searchViewItem = menu.findItem(R.id.menu_search)
+        val searchView = searchViewItem.actionView as SearchView
+        bindSearchView(searchView)
+
         setIcon(layoutButton)
     }
 
