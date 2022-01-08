@@ -1,15 +1,17 @@
 package br.com.mmdevelopment.cleannotes.presentation.view.fragment
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.mmdevelopment.cleannotes.R
 import br.com.mmdevelopment.cleannotes.databinding.FragmentHomeBinding
 import br.com.mmdevelopment.cleannotes.domain.model.Note
@@ -25,7 +27,16 @@ class HomeFragment : Fragment(), HomeContract.View {
     private val binding get() = _binding!!
 
     private val presenter: Presenter? by inject()
+
     private val adapter by lazy { NoteListAdapter { editNoteNavigation(it) } }
+    private lateinit var sharedPreferences: SharedPreferences
+    private var isLinearLayout = true
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).supportActionBar?.title = ""
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,18 +46,42 @@ class HomeFragment : Fragment(), HomeContract.View {
         return binding.root
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        sharedPreferences.edit().putBoolean(IS_LINEAR_LAYOUT_KEY, isLinearLayout).apply()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getSharedPreferences()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter!!.setView(this)
+        getSharedPreferences()
         bindAdapter()
-        bindListeners()
+        //bindSearchView()
         swipeToDelete()
-        // bindSearchView() TODO get correct adapter position from new list when clicked, else crashes
+        setRvManager()
+        bindListeners()
         presenter!!.getAllNotes()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        presenter!!.detachView()
+        _binding = null
+    }
+
+    private fun getSharedPreferences() {
+        sharedPreferences =
+            requireContext().getSharedPreferences("shared_pref", Context.MODE_PRIVATE)
+        isLinearLayout = sharedPreferences.getBoolean(IS_LINEAR_LAYOUT_KEY, true)
+    }
+
     private fun bindAdapter() {
-        binding.rvNotes.layoutManager = LinearLayoutManager(requireContext())
         binding.rvNotes.adapter = adapter
         showEmptyList(false)
     }
@@ -57,14 +92,8 @@ class HomeFragment : Fragment(), HomeContract.View {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        presenter!!.detachView()
-        _binding = null
-    }
-
     override fun bindSearchView() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        /*binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -76,7 +105,43 @@ class HomeFragment : Fragment(), HomeContract.View {
                 }
                 return true
             }
-        })
+        })*/
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.options_menu, menu)
+        val layoutButton = menu.findItem(R.id.switch_layout)
+        setIcon(layoutButton)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.switch_layout -> {
+                isLinearLayout = !isLinearLayout
+                sharedPreferences.edit().putBoolean(IS_LINEAR_LAYOUT_KEY, isLinearLayout).apply()
+                setRvManager()
+                setIcon(item)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setIcon(menuItem: MenuItem) {
+        menuItem.icon = if (isLinearLayout) {
+            ContextCompat.getDrawable(requireContext(), R.drawable.ic_linear_layout)
+        } else {
+            ContextCompat.getDrawable(requireContext(), R.drawable.ic_grid_layout)
+        }
+    }
+
+    private fun setRvManager() {
+        if (isLinearLayout) {
+            binding.rvNotes.layoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        } else {
+            binding.rvNotes.layoutManager = LinearLayoutManager(requireContext())
+        }
     }
 
     override fun showNotesOnRecycleView(list: List<Note>) {
@@ -121,7 +186,6 @@ class HomeFragment : Fragment(), HomeContract.View {
                 val position = viewHolder.adapterPosition
                 val note = adapter.currentList[position]
                 presenter!!.delete(note)
-                //chooseLayout()
 
                 Snackbar.make(
                     binding.root,
@@ -131,7 +195,6 @@ class HomeFragment : Fragment(), HomeContract.View {
                     .apply {
                         setAction(resources.getString(R.string.undo)) {
                             presenter!!.insertNote(note)
-                            //chooseLayout()
                         }
                         show()
                     }
@@ -140,4 +203,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         }).attachToRecyclerView(binding.rvNotes)
     }
 
+    companion object {
+        private const val IS_LINEAR_LAYOUT_KEY = "is_linear"
+    }
 }
