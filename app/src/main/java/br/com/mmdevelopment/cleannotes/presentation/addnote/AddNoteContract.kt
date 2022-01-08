@@ -5,8 +5,11 @@ import br.com.mmdevelopment.cleannotes.domain.model.Note
 interface AddNoteContract {
 
     interface View {
+        fun setToolbarTitle()
         fun findNoteById()
         fun populateFields(note: Note)
+        fun bindListeners()
+        fun saveNote()
     }
 
     interface Presenter {

@@ -61,7 +61,6 @@ class HomeFragment : Fragment(), HomeContract.View {
         presenter!!.setView(this)
         getSharedPreferences()
         bindAdapter()
-        //bindSearchView()
         swipeToDelete()
         setRvManager()
         bindListeners()
@@ -85,7 +84,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         showEmptyList(false)
     }
 
-    private fun bindListeners() {
+    override fun bindListeners() {
         binding.fabNew.setOnClickListener {
             addNewNote()
         }
@@ -131,7 +130,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         }
     }
 
-    private fun setIcon(menuItem: MenuItem) {
+    override fun setIcon(menuItem: MenuItem) {
         menuItem.icon = if (isLinearLayout) {
             ContextCompat.getDrawable(requireContext(), R.drawable.ic_linear_layout)
         } else {
@@ -139,7 +138,7 @@ class HomeFragment : Fragment(), HomeContract.View {
         }
     }
 
-    private fun setRvManager() {
+    override fun setRvManager() {
         if (isLinearLayout) {
             binding.rvNotes.layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -190,6 +189,7 @@ class HomeFragment : Fragment(), HomeContract.View {
                 val position = viewHolder.adapterPosition
                 val note = adapter.currentList[position]
                 presenter!!.delete(note)
+                setRvManager()
 
                 Snackbar.make(
                     binding.root,
@@ -199,6 +199,7 @@ class HomeFragment : Fragment(), HomeContract.View {
                     .apply {
                         setAction(resources.getString(R.string.undo)) {
                             presenter!!.insertNote(note)
+                            setRvManager()
                         }
                         show()
                     }

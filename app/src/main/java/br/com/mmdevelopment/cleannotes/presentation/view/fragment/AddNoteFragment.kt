@@ -46,7 +46,7 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
         bindListeners()
     }
 
-    private fun setToolbarTitle() {
+    override fun setToolbarTitle() {
         if (args.noteId != 0) {
             (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.edit_note)
         } else {
@@ -74,7 +74,7 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
         }
     }
 
-    private fun bindListeners() {
+    override fun bindListeners() {
         binding.tilDate.editText?.setOnClickListener {
             getDate()
         }
@@ -89,7 +89,7 @@ class AddNoteFragment : Fragment(), AddNoteContract.View {
         }
     }
 
-    private fun saveNote() {
+    override fun saveNote() {
         val note = Note(
             id = args.noteId,
             title = binding.tilTitle.text,

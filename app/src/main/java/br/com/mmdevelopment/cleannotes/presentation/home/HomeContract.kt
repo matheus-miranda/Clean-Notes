@@ -1,5 +1,6 @@
 package br.com.mmdevelopment.cleannotes.presentation.home
 
+import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
 import br.com.mmdevelopment.cleannotes.domain.model.Note
 
@@ -12,6 +13,9 @@ interface HomeContract {
         fun showEmptyList(shouldDisplay: Boolean)
         fun addNewNote()
         fun swipeToDelete()
+        fun bindListeners()
+        fun setIcon(menuItem: MenuItem)
+        fun setRvManager()
     }
 
     interface Presenter {
