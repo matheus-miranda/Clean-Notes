@@ -189,7 +189,6 @@ class HomeFragment : Fragment(), HomeContract.View {
                 val position = viewHolder.adapterPosition
                 val note = adapter.currentList[position]
                 presenter!!.delete(note)
-                setRvManager()
 
                 Snackbar.make(
                     binding.root,
@@ -199,7 +198,6 @@ class HomeFragment : Fragment(), HomeContract.View {
                     .apply {
                         setAction(resources.getString(R.string.undo)) {
                             presenter!!.insertNote(note)
-                            setRvManager()
                         }
                         show()
                     }
