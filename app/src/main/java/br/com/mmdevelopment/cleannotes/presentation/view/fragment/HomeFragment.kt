@@ -148,7 +148,7 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun showNotesOnRecycleView(list: List<Note>) {
-        adapter.submitList(list)
+        adapter.setData(list)
     }
 
     override fun editNoteNavigation(note: Note) {
@@ -187,8 +187,9 @@ class HomeFragment : Fragment(), HomeContract.View {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                val note = adapter.currentList[position]
+                val note = adapter.dataList[position]
                 presenter!!.delete(note)
+                adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
                 Snackbar.make(
                     binding.root,
