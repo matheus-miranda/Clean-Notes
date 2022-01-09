@@ -61,8 +61,8 @@ class HomeFragment : Fragment(), HomeContract.View {
         presenter!!.setView(this)
         getSharedPreferences()
         bindAdapter()
-        swipeToDelete()
         setRvManager()
+        swipeToDelete()
         bindListeners()
         presenter!!.getAllNotes()
     }
@@ -149,6 +149,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun showNotesOnRecycleView(list: List<Note>) {
         adapter.setData(list)
+        //binding.rvNotes.scheduleLayoutAnimation()
     }
 
     override fun editNoteNavigation(note: Note) {
