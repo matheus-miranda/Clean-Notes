@@ -1,8 +1,7 @@
 # Clean Notes
 
-Clean Notes is the final project of the Santander Mobile Developer Bootcamp hosted by Digital Innovation One
-
-Update (2021/08/11) App refactored to use Koin, LiveData and Coroutines.
+- Update (2021/08/11) App refactored to use Koin, LiveData and Coroutines.
+- Update (2022/01/09) App refactored to use MVP + Clean architecture with RxJava and Unit tests
 
 <h2>Features</h2>
 <li>Create and edit notes with title, description, date and hour</li>
